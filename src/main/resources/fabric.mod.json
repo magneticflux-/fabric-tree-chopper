@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "fabric-tree-chopper",
+  "version": "${version}",
+  "name": "fabric-tree-chopper",
+  "description": "A Fabric mod to make cutting down trees easier and more realistic.",
+  "authors": [
+    "magneticflux-"
+  ],
+  "contact": {
+    "homepage": "https://github.com/magneticflux-/fabric-tree-chopper",
+    "sources": "https://github.com/magneticflux-/fabric-tree-chopper"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/fabric-tree-chopper/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.skaggsm.treechoppermod.Fabrictreechopper"
+    ]
+  },
+  "mixins": [
+    "fabric-tree-chopper.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}
