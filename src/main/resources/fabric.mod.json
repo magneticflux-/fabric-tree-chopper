@@ -11,7 +11,7 @@
     "homepage": "https://github.com/magneticflux-/fabric-tree-chopper",
     "sources": "https://github.com/magneticflux-/fabric-tree-chopper"
   },
-  "license": "CC0-1.0",
+  "license": "GPL-3.0-or-later",
   "icon": "assets/fabric-tree-chopper/icon.png",
   "environment": "*",
   "entrypoints": {
