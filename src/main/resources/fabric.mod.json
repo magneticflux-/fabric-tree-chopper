@@ -16,7 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.skaggsm.treechoppermod.Fabrictreechopper"
+      {
+        "adapter": "kotlin",
+        "value": "com.skaggsm.treechoppermod.FabricTreeChopper"
+      }
     ]
   },
   "mixins": [
@@ -24,7 +27,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.4.0",
-    "fabric": "*"
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.3.30"
   },
   "suggests": {
     "flamingo": "*"
