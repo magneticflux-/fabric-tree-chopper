@@ -23,6 +23,10 @@ repositories {
         url = "https://minecraft.curseforge.com/api/maven"
         name = "CurseForge"
     }
+    maven {
+        url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/'
+        name = "Sargunv"
+    }
     jcenter()
 }
 
@@ -47,6 +51,14 @@ dependencies {
 
     modImplementation "net.fabricmc:fabric-language-kotlin:1.3.40+build.1"
     include "net.fabricmc:fabric-language-kotlin:1.3.40+build.1"
+
+    modImplementation "cloth-config:ClothConfig:0.2.4.17"
+    include "cloth-config:ClothConfig:0.2.4.17"
+
+    modImplementation "me.sargunvohra.mcmods:auto-config:1.2.0+mc1.14.4"
+    include "me.sargunvohra.mcmods:auto-config:1.2.0+mc1.14.4"
+
+    modImplementation "io.github.prospector:modmenu:1.7.5+build.114"
 }
 
 processResources {
@@ -107,7 +119,7 @@ publishing {
     // select the repositories you want to publish to
     repositories {
         // uncomment to publish to the local maven
-        // mavenLocal()
+        mavenLocal()
     }
 }
 

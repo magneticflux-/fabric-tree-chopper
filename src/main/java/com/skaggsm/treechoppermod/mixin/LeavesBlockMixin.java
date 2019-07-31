@@ -1,5 +1,6 @@
 package com.skaggsm.treechoppermod.mixin;
 
+import com.skaggsm.treechoppermod.FabricTreeChopper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.util.math.BlockPos;
@@ -21,6 +22,7 @@ public abstract class LeavesBlockMixin {
 
     @Inject(at = @At("TAIL"), method = "onScheduledTick", locals = CAPTURE_FAILSOFT)
     private void onScheduledTick(BlockState blockState_1, World world_1, BlockPos blockPos_1, Random random_1, CallbackInfo ci) {
-        this.onRandomTick(blockState_1, world_1, blockPos_1, random_1);
+        if (FabricTreeChopper.config.getFastLeafDecay())
+            this.onRandomTick(blockState_1, world_1, blockPos_1, random_1);
     }
 }

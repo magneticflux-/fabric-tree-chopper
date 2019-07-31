@@ -1,5 +1,7 @@
 package com.skaggsm.treechoppermod
 
+import me.sargunvohra.mcmods.autoconfig1.AutoConfig
+import me.sargunvohra.mcmods.autoconfig1.serializer.Toml4jConfigSerializer
 import net.fabricmc.api.ModInitializer
 
 /**
@@ -8,6 +10,10 @@ import net.fabricmc.api.ModInitializer
 object FabricTreeChopper : ModInitializer {
     const val MODID = "fabric-tree-chopper"
 
+    lateinit var config: FabricTreeChopperConfig
+
     override fun onInitialize() {
+        AutoConfig.register(FabricTreeChopperConfig::class.java, ::Toml4jConfigSerializer)
+        config = AutoConfig.getConfigHolder(FabricTreeChopperConfig::class.java).config
     }
 }

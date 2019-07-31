@@ -20,6 +20,9 @@
         "adapter": "kotlin",
         "value": "com.skaggsm.treechoppermod.FabricTreeChopper"
       }
+    ],
+    "modmenu": [
+      "com.skaggsm.treechoppermod.FabricTreeChopperConfigScreen"
     ]
   },
   "mixins": [
