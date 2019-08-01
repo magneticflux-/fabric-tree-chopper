@@ -6,4 +6,5 @@ import me.sargunvohra.mcmods.autoconfig1.annotation.Config
 @Config(name = FabricTreeChopper.MODID)
 class FabricTreeChopperConfig : ConfigData {
     var fastLeafDecay: Boolean = false
+    var fullTreeChop: Boolean = false
 }

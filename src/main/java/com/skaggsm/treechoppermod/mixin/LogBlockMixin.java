@@ -1,8 +1,10 @@
 package com.skaggsm.treechoppermod.mixin;
 
+import com.skaggsm.treechoppermod.FabricTreeChopper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.PillarBlock;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,17 +23,25 @@ public class LogBlockMixin extends PillarBlock {
     public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {
         super.onStacksDropped(blockState_1, world_1, blockPos_1, itemStack_1);
         ArrayList<BlockPos> trackedLogs = getTreePositions(blockPos_1, world_1, new ArrayList<>(), blockState_1);
+        removeDuplicates(trackedLogs);
         if (!trackedLogs.isEmpty()) {
-            int greatestDistance = 0;
-            BlockPos farthestLog = null;
-            for (BlockPos log : trackedLogs) {
-                if (greatestDistance < log.getManhattanDistance(blockPos_1)) {
-                    greatestDistance = log.getManhattanDistance(blockPos_1);
-                    farthestLog = log;
+            if (FabricTreeChopper.config.getFullTreeChop()) {
+                for (BlockPos log : trackedLogs) {
+                    world_1.clearBlockState(log, true);
                 }
+                world_1.spawnEntity(new ItemEntity(world_1, blockPos_1.getX(), blockPos_1.getY(), blockPos_1.getZ(), new ItemStack(this.asItem(), trackedLogs.size() - 1)));
+            } else {
+                int greatestDistance = 0;
+                BlockPos farthestLog = blockPos_1;
+                for (BlockPos log : trackedLogs) {
+                    if (greatestDistance < log.getManhattanDistance(blockPos_1)) {
+                        greatestDistance = log.getManhattanDistance(blockPos_1);
+                        farthestLog = log;
+                    }
+                }
+                world_1.setBlockState(blockPos_1, world_1.getBlockState(farthestLog));
+                world_1.clearBlockState(farthestLog, true);
             }
-            world_1.setBlockState(blockPos_1, world_1.getBlockState(farthestLog));
-            world_1.clearBlockState(farthestLog, true);
         }
     }
 
