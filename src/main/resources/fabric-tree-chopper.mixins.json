@@ -3,7 +3,8 @@
   "package": "com.skaggsm.treechoppermod.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "LeavesBlockMixin"
+    "LeavesBlockMixin",
+    "LogBlockMixin"
   ],
   "client": [
   ],
