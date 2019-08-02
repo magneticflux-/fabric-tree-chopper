@@ -1,16 +1,16 @@
 package com.skaggsm.treechoppermod.mixin;
 
-import com.skaggsm.treechoppermod.FabricTreeChopper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.PillarBlock;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.ArrayList;
+
+import static com.skaggsm.treechoppermod.LogBlockUtilsKt.maybeSwapFurthestLog;
 
 @Mixin(LogBlock.class)
 public class LogBlockMixin extends PillarBlock {
@@ -19,9 +19,12 @@ public class LogBlockMixin extends PillarBlock {
         super(block$Settings_1);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {
         super.onStacksDropped(blockState_1, world_1, blockPos_1, itemStack_1);
+        maybeSwapFurthestLog(blockState_1, world_1, blockPos_1);
+/*
         ArrayList<BlockPos> trackedLogs = getTreePositions(blockPos_1, world_1, new ArrayList<>(), blockState_1);
         removeDuplicates(trackedLogs);
         if (!trackedLogs.isEmpty()) {
@@ -42,7 +45,7 @@ public class LogBlockMixin extends PillarBlock {
                 world_1.setBlockState(blockPos_1, world_1.getBlockState(farthestLog));
                 world_1.clearBlockState(farthestLog, true);
             }
-        }
+        }*/
     }
 
     private ArrayList<BlockPos> getNewAdjacentLogs(ArrayList<BlockPos> alreadyLoggedLogs, World world, BlockPos blockPos, BlockState treeType) {
