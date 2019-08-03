@@ -1,7 +1,10 @@
 package com.skaggsm.treechoppermod
 
 import net.minecraft.block.BlockState
+import net.minecraft.block.LogBlock
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
@@ -92,7 +95,7 @@ private operator fun BlockPos.plus(it: Vec3i): BlockPos {
 /**
  * If there are other logs, breaks all of them and drops them at [blockPos].
  */
-fun maybeBreakAllLogs(originalBlockState: BlockState, world: World, blockPos: BlockPos, itemStack_1: ItemStack) {
+fun maybeBreakAllLogs(originalBlockState: BlockState, world: World, blockPos: BlockPos, itemStack_1: ItemStack, livingEntity: LivingEntity) {
     val logs = findAllLogsAbove(originalBlockState, world, blockPos)
 
     for (log in logs)
@@ -103,11 +106,16 @@ fun maybeBreakAllLogs(originalBlockState: BlockState, world: World, blockPos: Bl
             ItemStack(originalBlockState.block.asItem(), logs.size)
     ))
 
-    // Damage needs the player entity, our ItemStack is a copy so it doesn't reflect in-inv.
-    /*
-    println("before: ${itemStack_1.damage}")
-    val ret = itemStack_1.damage(1, world.random, null)
-    println("$ret after: ${itemStack_1.damage}")
-    itemStack_1.damage = 10
-    */
+    itemStack_1.damage(logs.size, livingEntity, { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) })
+}
+
+fun tryLogBreak(itemStack_1: ItemStack, world_1: World, blockState_1: BlockState, blockPos_1: BlockPos, livingEntity_1: LivingEntity) {
+    if (blockState_1.block is LogBlock) {
+        when (FabricTreeChopper.config.treeChopMode) {
+            ChopMode.FULL_CHOP -> maybeBreakAllLogs(blockState_1, world_1, blockPos_1, itemStack_1, livingEntity_1)
+            ChopMode.SINGLE_CHOP -> maybeSwapFurthestLog(blockState_1, world_1, blockPos_1)
+            ChopMode.VANILLA_CHOP -> {
+            }
+        }
+    }
 }

@@ -12,5 +12,5 @@ class FabricTreeChopperConfig : ConfigData {
 enum class ChopMode {
     FULL_CHOP,
     SINGLE_CHOP,
-    DEFAULT_CHOP
+    VANILLA_CHOP
 }
