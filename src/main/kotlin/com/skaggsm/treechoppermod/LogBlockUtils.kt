@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 import java.util.*
+import kotlin.math.min
 
 private val directions = linkedSetOf(
         // Above top
@@ -97,16 +98,21 @@ private operator fun BlockPos.plus(it: Vec3i): BlockPos {
  */
 fun maybeBreakAllLogs(originalBlockState: BlockState, world: World, blockPos: BlockPos, itemStack_1: ItemStack, livingEntity: LivingEntity) {
     val logs = findAllLogsAbove(originalBlockState, world, blockPos)
+    val remainingDurability = (itemStack_1.maxDamage - itemStack_1.damage) + 1
 
-    for (log in logs)
+    val logsToBreak = min(logs.size, remainingDurability)
+
+    for (log in logs) {
+        if (itemStack_1.count == 0)
+            break
         world.clearBlockState(log, false)
+        itemStack_1.damage(1, livingEntity, { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) })
+    }
 
     world.spawnEntity(ItemEntity(
             world, blockPos.x + .5, blockPos.y + .5, blockPos.z + .5,
-            ItemStack(originalBlockState.block.asItem(), logs.size)
+            ItemStack(originalBlockState.block.asItem(), logsToBreak)
     ))
-
-    itemStack_1.damage(logs.size, livingEntity, { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) })
 }
 
 fun tryLogBreak(itemStack_1: ItemStack, world_1: World, blockState_1: BlockState, blockPos_1: BlockPos, livingEntity_1: LivingEntity) {
