@@ -23,11 +23,15 @@ public class LogBlockMixin extends PillarBlock {
     @Override
     public void onStacksDropped(BlockState blockState_1, World world_1, BlockPos blockPos_1, ItemStack itemStack_1) {
         super.onStacksDropped(blockState_1, world_1, blockPos_1, itemStack_1);
-
-        if (FabricTreeChopper.config.getFullTreeChop()) {
-            maybeBreakAllLogs(blockState_1, world_1, blockPos_1, itemStack_1);
-        } else {
-            maybeSwapFurthestLog(blockState_1, world_1, blockPos_1);
+        switch (FabricTreeChopper.config.getTreeChopMode()) {
+            case FULL_CHOP:
+                maybeBreakAllLogs(blockState_1, world_1, blockPos_1, itemStack_1);
+                break;
+            case SINGLE_CHOP:
+                maybeSwapFurthestLog(blockState_1, world_1, blockPos_1);
+                break;
+            case DEFAULT_CHOP:
+                break;
         }
     }
 }

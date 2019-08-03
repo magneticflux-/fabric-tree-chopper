@@ -2,5 +2,5 @@
   "text.autoconfig.fabric-tree-chopper.title": "Tree Chopper Options",
   "text.autoconfig.fabric-tree-chopper.category.default": "",
   "text.autoconfig.fabric-tree-chopper.option.fastLeafDecay": "Fast Leaf Decay",
-  "text.autoconfig.fabric-tree-chopper.option.fullTreeChop": "Full Tree Chop"
+  "text.autoconfig.fabric-tree-chopper.option.treeChopMode": "Tree Chop Mode"
 }
