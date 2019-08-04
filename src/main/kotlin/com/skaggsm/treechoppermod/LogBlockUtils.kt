@@ -1,5 +1,8 @@
 package com.skaggsm.treechoppermod
 
+import com.skaggsm.treechoppermod.FabricTreeChopper.config
+import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_AFTER_CHOP
+import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_MID_CHOP
 import net.minecraft.block.BlockState
 import net.minecraft.block.LogBlock
 import net.minecraft.entity.EquipmentSlot
@@ -9,8 +12,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
-import java.util.*
-import kotlin.math.min
 
 private val directions = linkedSetOf(
         // Above top
@@ -96,26 +97,27 @@ private operator fun BlockPos.plus(it: Vec3i): BlockPos {
  */
 fun maybeBreakAllLogs(originalBlockState: BlockState, world: World, blockPos: BlockPos, itemStack_1: ItemStack, livingEntity: LivingEntity) {
     val logs = findAllLogsAbove(originalBlockState, world, blockPos)
-    val remainingDurability = (itemStack_1.maxDamage - itemStack_1.damage) + 1
-
-    val logsToBreak = min(logs.size, remainingDurability)
+    var logsBroken = 0
 
     for (log in logs) {
-        if (itemStack_1.count == 0)
+        if (config.fullChopDurabilityUsage == BREAK_MID_CHOP && itemStack_1.count == 0)
             break
         world.clearBlockState(log, false)
-        itemStack_1.damage(1, livingEntity, { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) })
+        logsBroken++
+
+        if (config.fullChopDurabilityUsage == BREAK_AFTER_CHOP || config.fullChopDurabilityUsage == BREAK_MID_CHOP)
+            itemStack_1.damage(1, livingEntity, { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) })
     }
 
     world.spawnEntity(ItemEntity(
             world, blockPos.x + .5, blockPos.y + .5, blockPos.z + .5,
-            ItemStack(originalBlockState.block.asItem(), logsToBreak)
+            ItemStack(originalBlockState.block.asItem(), logsBroken)
     ))
 }
 
 fun tryLogBreak(itemStack_1: ItemStack, world_1: World, blockState_1: BlockState, blockPos_1: BlockPos, livingEntity_1: LivingEntity) {
     if (blockState_1.block is LogBlock) {
-        when (FabricTreeChopper.config.treeChopMode) {
+        when (config.treeChopMode) {
             ChopMode.FULL_CHOP -> maybeBreakAllLogs(blockState_1, world_1, blockPos_1, itemStack_1, livingEntity_1)
             ChopMode.SINGLE_CHOP -> maybeSwapFurthestLog(blockState_1, world_1, blockPos_1)
             ChopMode.VANILLA_CHOP -> {
