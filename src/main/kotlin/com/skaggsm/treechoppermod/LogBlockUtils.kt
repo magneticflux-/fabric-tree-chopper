@@ -60,7 +60,7 @@ private fun findFurthestLog(originalBlockState: BlockState, world: World, blockP
     return logs.lastOrNull()
 }
 
-private fun findAllLogsAbove(originalBlockState: BlockState, world: World, originalBlockPos: BlockPos, distance: Int = 1): Set<BlockPos> {
+private fun findAllLogsAbove(originalBlockState: BlockState, world: World, originalBlockPos: BlockPos): Set<BlockPos> {
     val logQueue = linkedSetOf<BlockPos>()
     val foundLogs = linkedSetOf<BlockPos>()
 
@@ -70,9 +70,7 @@ private fun findAllLogsAbove(originalBlockState: BlockState, world: World, origi
         val log = logQueue.pop()
         directions.map { log + it }
                 .filter { originalBlockState.block == world.getBlockState(it).block && it !in foundLogs }
-                .forEach {
-                    logQueue.push(it)
-                }
+                .forEach { logQueue.push(it) }
         foundLogs += log
     }
 
