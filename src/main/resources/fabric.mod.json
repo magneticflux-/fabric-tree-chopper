@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "fabric-tree-chopper",
   "version": "${version}",
-  "name": "fabric-tree-chopper",
+  "name": "Fabric Tree Chopper",
   "description": "A Fabric mod to make cutting down trees easier and more realistic.",
   "authors": [
     "magneticflux-",
