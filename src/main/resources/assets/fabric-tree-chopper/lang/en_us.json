@@ -1,5 +1,8 @@
 {
   "text.autoconfig.fabric-tree-chopper.title": "Tree Chopper Options",
-  "text.autoconfig.fabric-tree-chopper.category.default": "",
-  "text.autoconfig.fabric-tree-chopper.option.fastLeafDecay": "Fast Leaf Decay"
+  "text.autoconfig.fabric-tree-chopper.category.default": "Default Category",
+  "text.autoconfig.fabric-tree-chopper.option.fastLeafDecay": "Enable Fast Leaf Decay",
+  "text.autoconfig.fabric-tree-chopper.option.treeChopMode": "Tree Chop Mode",
+  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage": "Full Chop Durability Usage",
+  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage.@Tooltip": "Only effective with Tree Chop Mode \"FULL_CHOP\""
 }
