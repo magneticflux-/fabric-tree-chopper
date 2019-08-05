@@ -142,6 +142,10 @@ curseforge {
             displayName = "$archives_base_name-$project.version"
             relations {
                 requiredDependency 'fabric-api'
+                embeddedLibrary 'fabric-language-kotlin'
+                embeddedLibrary 'cloth-config'
+                embeddedLibrary 'auto-config'
+                optionalDependency 'modmenu'
             }
         }
     }
