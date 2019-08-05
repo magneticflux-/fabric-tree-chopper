@@ -141,7 +141,7 @@ curseforge {
         mainArtifact(remapJar) {
             displayName = "$archives_base_name-$project.version"
             relations {
-                requiredDependency 'fabric'
+                requiredDependency 'fabric-api'
             }
         }
     }
