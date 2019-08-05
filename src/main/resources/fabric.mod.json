@@ -2,10 +2,11 @@
   "schemaVersion": 1,
   "id": "fabric-tree-chopper",
   "version": "${version}",
-  "name": "fabric-tree-chopper",
+  "name": "Fabric Tree Chopper",
   "description": "A Fabric mod to make cutting down trees easier and more realistic.",
   "authors": [
-    "magneticflux-"
+    "magneticflux-",
+    "ft-l"
   ],
   "contact": {
     "homepage": "https://github.com/magneticflux-/fabric-tree-chopper",
@@ -34,6 +35,5 @@
     "fabric-language-kotlin": ">=1.3.30"
   },
   "suggests": {
-    "flamingo": "*"
   }
 }
