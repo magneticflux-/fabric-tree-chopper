@@ -114,12 +114,13 @@ tasks.remove(tasks.getByName('publishJavaLibraryPublicationToMavenLocal'))
 publishing {
     publications {
         javaLibrary(MavenPublication) {
-           artifact(remapJar) {
-                builtBy remapJar
-          }
-           artifact(sourcesJar) {
-               builtBy remapSourcesJar
-           }
+            artifact(remapJar)
+            artifact(sourcesJar) {
+                // Don't remap sources so ShipKit doesn't get confused by missing sources
+                // Remap sources drops anything not *.java
+
+                //builtBy remapSourcesJar
+            }
         }
     }
 }
@@ -148,6 +149,7 @@ curseforge {
                 optionalDependency 'modmenu'
             }
         }
+        addArtifact sourcesJar
     }
     options {
         forgeGradleIntegration = false
