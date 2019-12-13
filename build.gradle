@@ -123,7 +123,7 @@ curseforge {
 
     project {
         id = project.curseforge_id
-        releaseType = 'alpha'
+        releaseType = 'release'
         addGameVersion "$project.minecraft_version"
         mainArtifact(remapJar) {
             displayName = "$archives_base_name-$project.version"
@@ -131,7 +131,6 @@ curseforge {
                 requiredDependency 'fabric-api'
                 embeddedLibrary 'fabric-language-kotlin'
                 embeddedLibrary 'cloth-config'
-                embeddedLibrary 'auto-config'
                 optionalDependency 'modmenu'
             }
         }
