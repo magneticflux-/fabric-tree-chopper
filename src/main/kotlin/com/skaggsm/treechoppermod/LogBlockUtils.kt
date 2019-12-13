@@ -41,7 +41,7 @@ private val directions = linkedSetOf(
         Vec3i(-1, 0, 1),
         Vec3i(-1, 0, -1)
 )
-        // Reversed so the top gets added to the output list last and it picked first. Makes log breaking look more "natural".
+        // Reversed so that the top gets added to the output list last and gets picked first. Makes log breaking look more "natural".
         .reversed()
 
 /**
@@ -51,7 +51,7 @@ fun maybeSwapFurthestLog(originalBlockState: BlockState, world: World, blockPos:
     val furthestLog = findFurthestLog(originalBlockState, world, blockPos)
 
     if (furthestLog != null) {
-        world.clearBlockState(furthestLog, false)
+        world.breakBlock(furthestLog, false)
         world.setBlockState(blockPos, originalBlockState)
     }
 }
@@ -102,7 +102,7 @@ fun maybeBreakAllLogs(originalBlockState: BlockState, world: World, blockPos: Bl
     for (log in logs) {
         if (config.fullChopDurabilityUsage == BREAK_MID_CHOP && itemStack_1.count == 0)
             break
-        world.clearBlockState(log, false)
+        world.breakBlock(log, false)
         logsBroken++
 
         if (config.fullChopDurabilityUsage == BREAK_AFTER_CHOP || config.fullChopDurabilityUsage == BREAK_MID_CHOP)

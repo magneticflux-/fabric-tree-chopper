@@ -2,17 +2,17 @@ plugins {
     id 'java'
     id 'idea'
     id 'maven-publish'
-    id 'fabric-loom' version '0.2.5-SNAPSHOT'
-    id 'com.github.ben-manes.versions' version '0.24.0'
-    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'fabric-loom' version '0.2.6-SNAPSHOT'
+    id 'com.github.ben-manes.versions' version '0.27.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.50'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
     id 'org.shipkit.java' version '2.2.5'
 }
 
 configurations {
-    shaded
-    implementation.extendsFrom shaded
+    modShaded
+    modImplementation.extendsFrom modShaded
 }
 
 repositories {
@@ -25,8 +25,7 @@ repositories {
         name = 'CurseForge'
     }
     maven {
-        url = 'http://maven.sargunv.s3-website-us-west-2.amazonaws.com/'
-        name = 'Sargunv'
+        url = 'https://dl.bintray.com/shedaniel/autoconfig1u/'
     }
     jcenter()
 }
@@ -43,22 +42,22 @@ minecraft {
 dependencies {
     //to change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation 'net.fabricmc:fabric-language-kotlin:1.3.50+build.+'
-    include 'net.fabricmc:fabric-language-kotlin:1.3.50+build.+'
+    modImplementation 'net.fabricmc:fabric-language-kotlin:1.3.60+build.1'
+    include 'net.fabricmc:fabric-language-kotlin:1.3.60+build.1'
 
-    modImplementation 'cloth-config:ClothConfig:0.2.4.17'
-    include 'cloth-config:ClothConfig:0.2.4.17'
+    modImplementation 'me.shedaniel.cloth:config-2:2.5.1'
+    include 'me.shedaniel.cloth:config-2:2.5.1'
 
-    modImplementation 'me.sargunvohra.mcmods:auto-config:1.2.0+mc1.14.4'
-    include 'me.sargunvohra.mcmods:auto-config:1.2.0+mc1.14.4'
+    modImplementation 'me.sargunvohra.mcmods:autoconfig1u:1.2.4'
+    include 'me.sargunvohra.mcmods:autoconfig1u:1.2.4'
 
-    modImplementation 'io.github.prospector:modmenu:1.7.10+build.+'
+    modImplementation 'io.github.prospector:modmenu:1.8.0+build.16'
 }
 
 processResources {
@@ -97,7 +96,7 @@ jar {
 
 // Configure shadowing
 shadowJar {
-    configurations = [project.configurations.shaded]
+    configurations = [project.configurations.modShaded]
     //relocate 'some.library', 'my.mod.shadowed.some.library'
 }
 
@@ -107,22 +106,9 @@ remapJar {
 }
 
 // Remove the ShipKit publication and recreate it with Fabric artifacts
-publishing.publications.remove(publishing.publications.getByName('javaLibrary'))
-tasks.remove(tasks.getByName('generateMetadataFileForJavaLibraryPublication'))
-tasks.remove(tasks.getByName('generatePomFileForJavaLibraryPublication'))
-tasks.remove(tasks.getByName('publishJavaLibraryPublicationToMavenLocal'))
-publishing {
-    publications {
-        javaLibrary(MavenPublication) {
-            artifact(remapJar)
-            artifact(sourcesJar) {
-                // Don't remap sources so ShipKit doesn't get confused by missing sources
-                // Remap sources drops anything not *.java
-
-                //builtBy remapSourcesJar
-            }
-        }
-    }
+publishing.publications.getByName('javaLibrary') {
+    delegate.artifacts = [remapJar, sourcesJar]
+    delegate.getArtifacts() // Force evaluation here. Fails if lazily evaluated later for some reason...
 }
 
 // Configure CurseForge publishing
