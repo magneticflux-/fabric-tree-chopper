@@ -125,6 +125,8 @@ curseforge {
         id = project.curseforge_id
         releaseType = 'release'
         addGameVersion "$project.minecraft_version"
+        addGameVersion 'Fabric'
+        setChangelog file('docs/release-notes.md')
         mainArtifact(remapJar) {
             displayName = "$archives_base_name-$project.version"
             relations {
