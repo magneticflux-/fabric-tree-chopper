@@ -1,16 +1,14 @@
+[![](http://cf.way2muchnoise.eu/short_fabric-tree-chopper_downloads.svg)](https://minecraft.curseforge.com/projects/fabric-tree-chopper)
+[![](http://cf.way2muchnoise.eu/versions/fabric-tree-chopper_all.svg)](https://minecraft.curseforge.com/projects/fabric-tree-chopper)
+[![](http://cf.way2muchnoise.eu/packs/short_fabric-tree-chopper.svg)](https://minecraft.curseforge.com/projects/fabric-tree-chopper)
+
 # fabric-tree-chopper
+A Fabric mod to make cutting down trees easier and more realistic.
 
-## Setup
+---
 
-1. Edit build.gradle and mod.json to suit your needs.
-    * The "mixins" object can be removed from mod.json if you do not need to use mixins.
-    * Please replace all occurences of "modid" with your own mod ID - sometimes, a different string may also suffice.
-2. Run the following command:
+If you feel generous or want to encourage my work, you can throw a few dollars my way here:
 
-```
-./gradlew idea
-```
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/L4L0XZWT)
 
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=SYSJUAMK9JVWC&currency_code=USD&source=url)

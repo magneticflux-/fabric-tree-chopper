@@ -1,0 +1,8 @@
+{
+  "text.autoconfig.fabric-tree-chopper.title": "Параметры Tree Chopper",
+  "text.autoconfig.fabric-tree-chopper.category.default": "Категория по умолчанию",
+  "text.autoconfig.fabric-tree-chopper.option.fastLeafDecay": "Быстрый распад листьев",
+  "text.autoconfig.fabric-tree-chopper.option.treeChopMode": "Режим рубки дерева",
+  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage": "Длительность полной срубки",
+  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage.@Tooltip": "Действует только с режимом рубки дерева \"FULL_CHOP\""
+}
