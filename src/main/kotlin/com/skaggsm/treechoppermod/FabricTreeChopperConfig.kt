@@ -11,6 +11,7 @@ class FabricTreeChopperConfig : ConfigData {
     @ConfigEntry.Gui.Tooltip
     var fullChopDurabilityUsage: FullChopDurabilityMode = FullChopDurabilityMode.BREAK_MID_CHOP
     var sneakToDisable: Boolean = true
+    var requireLeavesToChop: Boolean = true
 }
 
 enum class ChopMode {
