@@ -4,6 +4,7 @@ import com.skaggsm.treechoppermod.FabricTreeChopper.config
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_AFTER_CHOP
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_MID_CHOP
 import net.minecraft.block.BlockState
+import net.minecraft.block.LeavesBlock
 import net.minecraft.block.LogBlock
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
@@ -64,18 +65,28 @@ private fun findFurthestLog(originalBlockState: BlockState, world: World, blockP
 private fun findAllLogsAbove(originalBlockState: BlockState, world: World, originalBlockPos: BlockPos): Set<BlockPos> {
     val logQueue = linkedSetOf<BlockPos>()
     val foundLogs = linkedSetOf<BlockPos>()
+    var foundNaturalLeaf = false
 
     logQueue.push(originalBlockPos)
 
     while (logQueue.isNotEmpty()) {
         val log = logQueue.pop()
         directions.map { log + it }
-                .filter { originalBlockState.block == world.getBlockState(it).block && it !in foundLogs }
-                .forEach { logQueue.push(it) }
+                .forEach {
+                    val state = world.getBlockState(it);
+                    if (originalBlockState.block == state.block && it !in foundLogs)
+                        logQueue.push(it)
+                    else if (state.contains(LeavesBlock.PERSISTENT) && !state.get(LeavesBlock.PERSISTENT)) {
+                        foundNaturalLeaf = true
+                    }
+                }
         foundLogs += log
     }
 
-    return foundLogs - originalBlockPos
+    return if (config.requireLeavesToChop && !foundNaturalLeaf)
+        emptySet()
+    else
+        foundLogs - originalBlockPos
 }
 
 private fun <E> LinkedHashSet<E>.pop(): E {
