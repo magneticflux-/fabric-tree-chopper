@@ -5,6 +5,34 @@
 # fabric-tree-chopper
 A Fabric mod to make cutting down trees easier and more realistic.
 
+## Configuration
+
+### Client
+
+The client can be configured through the config file or through the config GUI in the mod's Mod Menu entry.
+
+
+### Server
+
+The server must be configured through the config file.
+
+## Config File
+
+The config file is located at `.minecraft/config/fabric-tree-chopper.toml`.
+
+Available options:
+
+- `fastLeafDecay`
+  - `true` or `false`
+- `treeChopMode`
+  - `FULL_CHOP`, `SINGLE_CHOP`, or `VANILLA_CHOP`
+- `fullChopDurabilityUsage`
+  - `NO_DURABILITY_LOSS`, `BREAK_AFTER_CHOP`, or `BREAK_MID_CHOP`
+- `sneakToDisable`
+  - `true` or `false`
+- `requireLeavesToChop`
+  - `true` or `false`
+
 ---
 
 If you feel generous or want to encourage my work, you can throw a few dollars my way here:
