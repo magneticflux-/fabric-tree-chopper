@@ -3,10 +3,7 @@ package com.skaggsm.treechoppermod
 import com.skaggsm.treechoppermod.FabricTreeChopper.config
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_AFTER_CHOP
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_MID_CHOP
-import net.minecraft.block.BlockState
-import net.minecraft.block.LeavesBlock
-import net.minecraft.block.Material
-import net.minecraft.block.PillarBlock
+import net.minecraft.block.*
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -15,6 +12,10 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
 
+private val BlockState.isNaturalLeaf: Boolean
+    get() {
+        return (this.contains(LeavesBlock.PERSISTENT) && !this.get(LeavesBlock.PERSISTENT)) || this.block is FungusBlock
+    }
 private val BlockState.isChoppable: Boolean
     get() {
         return this.block is PillarBlock && (this.material == Material.WOOD || this.material == Material.NETHER_WOOD)
@@ -82,7 +83,7 @@ private fun findAllLogsAbove(originalBlockState: BlockState, world: World, origi
                     val state = world.getBlockState(it)
                     if (originalBlockState.block == state.block && it !in foundLogs)
                         logQueue.push(it)
-                    else if (state.contains(LeavesBlock.PERSISTENT) && !state.get(LeavesBlock.PERSISTENT)) {
+                    else if (state.isNaturalLeaf) {
                         foundNaturalLeaf = true
                     }
                 }
