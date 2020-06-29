@@ -5,7 +5,8 @@ import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_AFTER_CHOP
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_MID_CHOP
 import net.minecraft.block.BlockState
 import net.minecraft.block.LeavesBlock
-import net.minecraft.block.LogBlock
+import net.minecraft.block.Material
+import net.minecraft.block.PillarBlock
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -13,6 +14,11 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
+
+private val BlockState.isChoppable: Boolean
+    get() {
+        return this.block is PillarBlock && (this.material == Material.WOOD || this.material == Material.NETHER_WOOD)
+    }
 
 private val directions = linkedSetOf(
         // Above top
@@ -73,7 +79,7 @@ private fun findAllLogsAbove(originalBlockState: BlockState, world: World, origi
         val log = logQueue.pop()
         directions.map { log + it }
                 .forEach {
-                    val state = world.getBlockState(it);
+                    val state = world.getBlockState(it)
                     if (originalBlockState.block == state.block && it !in foundLogs)
                         logQueue.push(it)
                     else if (state.contains(LeavesBlock.PERSISTENT) && !state.get(LeavesBlock.PERSISTENT)) {
@@ -127,7 +133,7 @@ fun maybeBreakAllLogs(originalBlockState: BlockState, world: World, blockPos: Bl
 }
 
 fun tryLogBreak(itemStack_1: ItemStack, world_1: World, blockState_1: BlockState, blockPos_1: BlockPos, livingEntity_1: LivingEntity) {
-    if (blockState_1.block is LogBlock && !(livingEntity_1.isSneaking && config.sneakToDisable)) {
+    if (blockState_1.isChoppable && !(livingEntity_1.isSneaking && config.sneakToDisable)) {
         when (config.treeChopMode) {
             ChopMode.FULL_CHOP -> maybeBreakAllLogs(blockState_1, world_1, blockPos_1, itemStack_1, livingEntity_1)
             ChopMode.SINGLE_CHOP -> maybeSwapFurthestLog(blockState_1, world_1, blockPos_1)
