@@ -47,7 +47,19 @@ private val directions = linkedSetOf(
         Vec3i(1, 0, 1),
         Vec3i(1, 0, -1),
         Vec3i(-1, 0, 1),
-        Vec3i(-1, 0, -1)
+        Vec3i(-1, 0, -1),
+
+        // Below touching
+        Vec3i(1, -1, 0),
+        Vec3i(-1, -1, 0),
+        Vec3i(0, -1, 1),
+        Vec3i(0, -1, -1),
+
+        // Below diagonal
+        Vec3i(1, -1, 1),
+        Vec3i(1, -1, -1),
+        Vec3i(-1, -1, 1),
+        Vec3i(-1, -1, -1)
 )
         // Reversed so that the top gets added to the output list last and gets picked first. Makes log breaking look more "natural".
         .reversed()
