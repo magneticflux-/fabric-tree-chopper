@@ -32,6 +32,11 @@ repositories {
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
 
 archivesBaseName = project.archives_base_name
 group = project.maven_group
@@ -58,6 +63,11 @@ dependencies {
 
     modImplementation 'me.sargunvohra.mcmods:autoconfig1u:3.2.0-unstable'
     include 'me.sargunvohra.mcmods:autoconfig1u:3.2.0-unstable'
+
+    modImplementation "me.shedaniel.cloth:fiber2cloth:3.0.1"
+    include "me.shedaniel.cloth:fiber2cloth:3.0.1"
+
+    implementation "me.zeroeightsix:fiber:${project.fiber_version}"
 }
 
 processResources {
