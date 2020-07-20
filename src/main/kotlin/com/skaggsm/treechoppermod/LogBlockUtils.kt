@@ -134,7 +134,8 @@ fun maybeBreakAllLogs(originalBlockState: BlockState, world: World, blockPos: Bl
 }
 
 fun tryLogBreak(itemStack_1: ItemStack, world_1: World, blockState_1: BlockState, blockPos_1: BlockPos, livingEntity_1: LivingEntity) {
-    if (blockState_1.isChoppable && !(livingEntity_1.isSneaking && config.sneakToDisable)) {
+    if (blockState_1.isChoppable && if (config.sneakToDisable && config.invertSneakToDisable) (livingEntity_1.isSneaking && config.sneakToDisable) else
+                                                                                                !(livingEntity_1.isSneaking && config.sneakToDisable)) {
         when (config.treeChopMode) {
             ChopMode.FULL_CHOP -> maybeBreakAllLogs(blockState_1, world_1, blockPos_1, itemStack_1, livingEntity_1)
             ChopMode.SINGLE_CHOP -> maybeSwapFurthestLog(blockState_1, world_1, blockPos_1)
