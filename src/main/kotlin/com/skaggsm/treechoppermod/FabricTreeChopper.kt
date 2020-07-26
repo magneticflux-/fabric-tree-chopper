@@ -18,8 +18,8 @@ object FabricTreeChopper : ModInitializer {
     const val MODID = "fabric-tree-chopper"
 
     val serializer = JanksonValueSerializer(false)
-    val configFile = Paths.get("config","fabric-tree-chopper.json")
-    val oldConfigFile = Paths.get("config","fabric-tree-chopper.toml")
+    val configFile = Paths.get("config", "fabric-tree-chopper.json")
+    val oldConfigFile = Paths.get("config", "fabric-tree-chopper.toml")
 
     lateinit var config: FabricTreeChopperFiberConfig
     lateinit var configTree: ConfigBranch
