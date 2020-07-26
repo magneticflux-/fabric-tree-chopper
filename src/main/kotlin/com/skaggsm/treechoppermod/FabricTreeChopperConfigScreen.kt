@@ -15,7 +15,7 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
 
     override fun getModConfigScreenFactory(): ConfigScreenFactory<Screen> {
         return ConfigScreenFactory {
-            Fiber2Cloth.create(it, modId, configTree, "")
+            Fiber2Cloth.create(it, modId, configTree, "config.fabric-tree-chopper.title")
                     .setSaveRunnable {
                         serialize()
                     }

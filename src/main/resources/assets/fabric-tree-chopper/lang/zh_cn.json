@@ -4,7 +4,7 @@
   "config.fabric-tree-chopper.fastLeafDecay": "启用树叶快速掉落",
   "config.fabric-tree-chopper.treeChopMode": "砍伐模式",
   "config.fabric-tree-chopper.fullChopDurabilityUsage": "在FullChop模式下的耐久度计算",
-  "config.fabric-tree-chopper.fullChopDurabilityUsage.@Tooltip": "只对该砍伐模式有效  \"FULL_CHOP\"",
+  "config.fabric-tree-chopper.fullChopDurabilityUsage@Tooltip": "只对该砍伐模式有效  \"FULL_CHOP\"",
   "config.fabric-tree-chopper.sneakToDisable": "在潜行时关闭砍树插件",
   "config.fabric-tree-chopper.requireLeavesToChop": "如果没有自然生成的叶子附着在原木上，则关闭砍树插件"
 }

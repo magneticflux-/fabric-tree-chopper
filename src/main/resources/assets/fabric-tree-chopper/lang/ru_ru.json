@@ -4,5 +4,5 @@
   "config.fabric-tree-chopper.fastLeafDecay": "Быстрый распад листьев",
   "config.fabric-tree-chopper.treeChopMode": "Режим рубки дерева",
   "config.fabric-tree-chopper.fullChopDurabilityUsage": "Длительность полной срубки",
-  "config.fabric-tree-chopper.fullChopDurabilityUsage.@Tooltip": "Действует только с режимом рубки дерева \"FULL_CHOP\""
+  "config.fabric-tree-chopper.fullChopDurabilityUsage@Tooltip": "Действует только с режимом рубки дерева \"FULL_CHOP\""
 }

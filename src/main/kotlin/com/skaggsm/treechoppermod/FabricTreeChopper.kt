@@ -1,9 +1,11 @@
 package com.skaggsm.treechoppermod
 
+import io.github.fablabsmc.fablabs.api.fiber.v1.annotation.AnnotatedSettings
 import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.FiberSerialization
 import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.JanksonValueSerializer
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigBranch
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigTree
+import me.shedaniel.fiber2cloth.api.Fiber2Cloth
 import net.fabricmc.api.ModInitializer
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -31,7 +33,10 @@ object FabricTreeChopper : ModInitializer {
 
         handleOldConfigs()
 
-        configTree = ConfigTree.builder().applyFromPojo(config).build()
+        val settings = AnnotatedSettings.builder()
+                .apply(Fiber2Cloth::configure)
+                .build()
+        configTree = ConfigTree.builder().applyFromPojo(config, settings).build()
 
         if (Files.notExists(configFile)) {
             serialize()
