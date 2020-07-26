@@ -67,7 +67,8 @@ dependencies {
     modImplementation "me.shedaniel.cloth:fiber2cloth:3.0.1"
     include "me.shedaniel.cloth:fiber2cloth:3.0.1"
 
-    implementation "me.zeroeightsix:fiber:${project.fiber_version}"
+    modImplementation "me.zeroeightsix:fiber:${project.fiber_version}"
+    include "me.zeroeightsix:fiber:${project.fiber_version}"
 }
 
 processResources {

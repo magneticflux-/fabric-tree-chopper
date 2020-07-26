@@ -7,6 +7,7 @@ import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigTree
 import net.fabricmc.api.ModInitializer
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 import java.util.*
 
@@ -17,8 +18,8 @@ object FabricTreeChopper : ModInitializer {
     const val MODID = "fabric-tree-chopper"
 
     val serializer = JanksonValueSerializer(false)
-    val configFile = Path.of("config","fabric-tree-chopper.json")
-    val oldConfigFile = Path.of("config", "fabric-tree-chopper.toml")
+    val configFile = Paths.get("config","fabric-tree-chopper.json")
+    val oldConfigFile = Paths.get("config","fabric-tree-chopper.toml")
 
     lateinit var config: FabricTreeChopperFiberConfig
     lateinit var configTree: ConfigBranch
