@@ -6,9 +6,10 @@ import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigBranch
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigTree
 import net.fabricmc.api.ModInitializer
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
+import java.time.Duration
+import java.time.Instant
 import java.util.*
 
 /**
@@ -20,6 +21,7 @@ object FabricTreeChopper : ModInitializer {
     val serializer = JanksonValueSerializer(false)
     val configFile = Paths.get("config", "fabric-tree-chopper.json")
     val oldConfigFile = Paths.get("config", "fabric-tree-chopper.toml")
+    val oldConfigFileBackup = Paths.get("config", "fabric-tree-chopper.toml.old")
 
     lateinit var config: FabricTreeChopperFiberConfig
     lateinit var configTree: ConfigBranch
@@ -27,9 +29,7 @@ object FabricTreeChopper : ModInitializer {
     override fun onInitialize() {
         config = FabricTreeChopperFiberConfig()
 
-        if (Files.exists(oldConfigFile)) {
-            updateConfigTree()
-        }
+        handleOldConfigs()
 
         configTree = ConfigTree.builder().applyFromPojo(config).build()
 
@@ -40,7 +40,24 @@ object FabricTreeChopper : ModInitializer {
         deserialize()
     }
 
-    fun updateConfigTree() {
+    private infix fun Instant.until(other: Instant): Duration {
+        return Duration.between(this, other)
+    }
+
+    private fun handleOldConfigs() {
+        if (Files.exists(oldConfigFile)) {
+            updateConfigTree()
+        }
+
+        if (Files.exists(oldConfigFileBackup)) {
+            if (Files.getLastModifiedTime(oldConfigFileBackup).toInstant() until Instant.now() >= Duration.ofDays(14)) {
+                Files.delete(oldConfigFileBackup)
+            }
+        }
+    }
+
+
+    private fun updateConfigTree() {
         val scan = Scanner(oldConfigFile)
         val regex = Regex("(.+) = \"?(\\w+)\"?")
         var line = ""
@@ -49,14 +66,14 @@ object FabricTreeChopper : ModInitializer {
             line = scan.nextLine()
             matchResult = regex.find(line)!!
             when (matchResult.groupValues[1]) {
-                "fastLeafDecay" -> {config.fastLeafDecay = matchResult.groupValues[2].toBoolean()}
-                "treeChopMode" -> {config.treeChopMode = ChopMode.valueOf(matchResult.groupValues[2])}
-                "fullChopDurabilityUsage" -> {config.fullChopDurabilityUsage = FullChopDurabilityMode.valueOf(matchResult.groupValues[2])}
-                "sneakToDisable" -> {config.sneakToDisable = matchResult.groupValues[2].toBoolean()}
-                "requireLeavesToChop" -> {config.requireLeavesToChop = matchResult.groupValues[2].toBoolean()}
+                "fastLeafDecay" -> config.fastLeafDecay = matchResult.groupValues[2].toBoolean()
+                "treeChopMode" -> config.treeChopMode = ChopMode.valueOf(matchResult.groupValues[2])
+                "fullChopDurabilityUsage" -> config.fullChopDurabilityUsage = FullChopDurabilityMode.valueOf(matchResult.groupValues[2])
+                "sneakToDisable" -> config.sneakToDisable = matchResult.groupValues[2].toBoolean()
+                "requireLeavesToChop" -> config.requireLeavesToChop = matchResult.groupValues[2].toBoolean()
             }
         }
-        Files.delete(oldConfigFile)
+        Files.move(oldConfigFile, oldConfigFileBackup)
     }
 
     fun serialize() {
