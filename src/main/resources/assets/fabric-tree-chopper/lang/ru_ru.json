@@ -1,8 +1,10 @@
 {
   "text.autoconfig.fabric-tree-chopper.title": "Параметры Tree Chopper",
-  "text.autoconfig.fabric-tree-chopper.category.default": "Категория по умолчанию",
-  "text.autoconfig.fabric-tree-chopper.option.fastLeafDecay": "Быстрый распад листьев",
-  "text.autoconfig.fabric-tree-chopper.option.treeChopMode": "Режим рубки дерева",
-  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage": "Длительность полной срубки",
-  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage.@Tooltip": "Действует только с режимом рубки дерева \"FULL_CHOP\""
+  "text.autoconfig.fabric-tree-chopper.category.default": "Категория по-умолчанию",
+  "text.autoconfig.fabric-tree-chopper.option.fastLeafDecay": "Включить быстрый распад листьев",
+  "text.autoconfig.fabric-tree-chopper.option.treeChopMode": "Режим: Рубка дерева",
+  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage": "Использование полной надёжной вырубки",
+  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage.@Tooltip": "Действует лишь только в режиме рубки дерева \"FULL_CHOP\"",
+  "text.autoconfig.fabric-tree-chopper.option.sneakToDisable": "Отключает вырубку, если присесть",
+  "text.autoconfig.fabric-tree-chopper.option.requireLeavesToChop": "Отключает вырубку, переведено сообществом модовестник, если естественные листья не касаются брёвен"
 }
