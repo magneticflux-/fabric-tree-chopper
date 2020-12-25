@@ -18,7 +18,7 @@ The server must be configured through the config file.
 
 ## Config File
 
-The config file is located at `.minecraft/config/fabric-tree-chopper.toml`.
+The config file is located at `.minecraft/config/fabric-tree-chopper.json`.
 
 Available options:
 
@@ -32,6 +32,8 @@ Available options:
   - `true` or `false`
 - `requireLeavesToChop`
   - `true` or `false`
+
+Details are availble in the ModMenu config screen.
 
 ---
 
