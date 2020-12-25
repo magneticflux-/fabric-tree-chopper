@@ -22,7 +22,7 @@ public abstract class LeavesBlockMixin {
 
     @Inject(at = @At("TAIL"), method = "scheduledTick", locals = CAPTURE_FAILSOFT)
     private void onScheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        if (FabricTreeChopper.INSTANCE.getConfig().getFastLeafDecay())
+        if (FabricTreeChopper.INSTANCE.getConfig().fastLeafDecay)
             this.randomTick(state, world, pos, random);
     }
 }

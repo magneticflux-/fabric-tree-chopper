@@ -207,5 +207,7 @@ hs_err_pid*
 .idea/modules.xml
 .idea/*.iml
 .idea/modules
+.idea/misc.xml
+.idea/codeStyles/Project.xml
 *.iml
 *.ipr
