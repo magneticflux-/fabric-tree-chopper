@@ -7,7 +7,7 @@ public class FabricTreeChopperFiberConfig {
 
     public boolean fastLeafDecay = true;
     @NotNull
-    @ClothSetting.Tooltip
+    @ClothSetting.Tooltip("config.fabric-tree-chopper.fullChopDurabilityUsage@Tooltip")
     public FullChopDurabilityMode fullChopDurabilityUsage = FullChopDurabilityMode.BREAK_MID_CHOP;
     public boolean sneakToDisable = true;
     public boolean requireLeavesToChop = true;
