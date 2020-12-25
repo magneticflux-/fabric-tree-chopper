@@ -2,12 +2,12 @@ plugins {
     id 'java'
     id 'idea'
     id 'maven-publish'
-    id 'fabric-loom' version '0.4-SNAPSHOT'
-    id 'com.github.ben-manes.versions' version '0.29.0'
+    id 'fabric-loom' version '0.5-SNAPSHOT'
+    id 'com.github.ben-manes.versions' version '0.36.0'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
-    id 'org.shipkit.java' version '2.3.4'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.21'
+    id 'org.shipkit.java' version '2.3.5'
 }
 
 configurations {
@@ -53,7 +53,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
     include "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
 
-    modImplementation 'io.github.prospector:modmenu:1.14.6+build.31'
+    modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
 
     modImplementation "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
     include "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
