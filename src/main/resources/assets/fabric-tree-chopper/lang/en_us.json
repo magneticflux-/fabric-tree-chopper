@@ -1,10 +1,10 @@
 {
-  "text.autoconfig.fabric-tree-chopper.title": "Tree Chopper Options",
-  "text.autoconfig.fabric-tree-chopper.category.default": "Default Category",
-  "text.autoconfig.fabric-tree-chopper.option.fastLeafDecay": "Enable fast leaf decay",
-  "text.autoconfig.fabric-tree-chopper.option.treeChopMode": "Tree chop mode",
-  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage": "Full chop durability usage",
-  "text.autoconfig.fabric-tree-chopper.option.fullChopDurabilityUsage.@Tooltip": "Only effective with tree chop mode \"FULL_CHOP\"",
-  "text.autoconfig.fabric-tree-chopper.option.sneakToDisable": "Disable chopping when sneaking",
-  "text.autoconfig.fabric-tree-chopper.option.requireLeavesToChop": "Disable chopping if no natural leaves touch the logs"
+  "config.fabric-tree-chopper.title": "Tree Chopper Options",
+  "config.fabric-tree-chopper.category.default": "Default Category",
+  "config.fabric-tree-chopper.fastLeafDecay": "Enable fast leaf decay",
+  "config.fabric-tree-chopper.treeChopMode": "Tree chop mode",
+  "config.fabric-tree-chopper.fullChopDurabilityUsage": "Full chop durability usage",
+  "config.fabric-tree-chopper.fullChopDurabilityUsage@Tooltip": "Only effective with tree chop mode \"FULL_CHOP\"",
+  "config.fabric-tree-chopper.sneakToDisable": "Disable chopping when sneaking",
+  "config.fabric-tree-chopper.requireLeavesToChop": "Disable chopping if no natural leaves touch the logs"
 }
