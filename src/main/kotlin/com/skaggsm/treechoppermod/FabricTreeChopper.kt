@@ -6,7 +6,9 @@ import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.JanksonValueSerial
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigBranch
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigTree
 import me.shedaniel.fiber2cloth.api.Fiber2Cloth
+import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.loader.api.FabricLoader
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
@@ -33,9 +35,11 @@ object FabricTreeChopper : ModInitializer {
 
         handleOldConfigs()
 
-        val settings = AnnotatedSettings.builder()
-                .apply(Fiber2Cloth::configure)
-                .build()
+        val settingsBuilder = AnnotatedSettings.builder()
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+            Fiber2Cloth.configure(settingsBuilder)
+        val settings = settingsBuilder.build()
+
         configTree = ConfigTree.builder().applyFromPojo(config, settings).build()
 
         if (Files.notExists(configFile)) {
@@ -73,7 +77,8 @@ object FabricTreeChopper : ModInitializer {
             when (matchResult.groupValues[1]) {
                 "fastLeafDecay" -> config.fastLeafDecay = matchResult.groupValues[2].toBoolean()
                 "treeChopMode" -> config.treeChopMode = ChopMode.valueOf(matchResult.groupValues[2])
-                "fullChopDurabilityUsage" -> config.fullChopDurabilityUsage = FullChopDurabilityMode.valueOf(matchResult.groupValues[2])
+                "fullChopDurabilityUsage" -> config.fullChopDurabilityUsage =
+                    FullChopDurabilityMode.valueOf(matchResult.groupValues[2])
                 "sneakToDisable" -> config.sneakToDisable = matchResult.groupValues[2].toBoolean()
                 "requireLeavesToChop" -> config.requireLeavesToChop = matchResult.groupValues[2].toBoolean()
             }
@@ -82,10 +87,18 @@ object FabricTreeChopper : ModInitializer {
     }
 
     fun serialize() {
-        FiberSerialization.serialize(configTree, Files.newOutputStream(configFile, StandardOpenOption.WRITE, StandardOpenOption.CREATE), serializer)
+        FiberSerialization.serialize(
+            configTree,
+            Files.newOutputStream(configFile, StandardOpenOption.WRITE, StandardOpenOption.CREATE),
+            serializer
+        )
     }
 
     fun deserialize() {
-        FiberSerialization.deserialize(configTree, Files.newInputStream(configFile, StandardOpenOption.READ), serializer)
+        FiberSerialization.deserialize(
+            configTree,
+            Files.newInputStream(configFile, StandardOpenOption.READ),
+            serializer
+        )
     }
 }
