@@ -10,11 +10,9 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
-import java.time.Duration
-import java.time.Instant
-import java.util.*
 
 /**
  * Created by Mitchell Skaggs on 7/30/2019.
@@ -22,18 +20,14 @@ import java.util.*
 object FabricTreeChopper : ModInitializer {
     const val MODID = "fabric-tree-chopper"
 
-    val serializer = JanksonValueSerializer(false)
-    val configFile = Paths.get("config", "fabric-tree-chopper.json")
-    val oldConfigFile = Paths.get("config", "fabric-tree-chopper.toml")
-    val oldConfigFileBackup = Paths.get("config", "fabric-tree-chopper.toml.old")
+    private val serializer = JanksonValueSerializer(false)
+    private val configFile: Path = Paths.get("config", "fabric-tree-chopper.json")
 
     lateinit var config: FabricTreeChopperFiberConfig
     lateinit var configTree: ConfigBranch
 
     override fun onInitialize() {
         config = FabricTreeChopperFiberConfig()
-
-        handleOldConfigs()
 
         val settingsBuilder = AnnotatedSettings.builder()
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
@@ -47,43 +41,6 @@ object FabricTreeChopper : ModInitializer {
         }
 
         deserialize()
-    }
-
-    private infix fun Instant.until(other: Instant): Duration {
-        return Duration.between(this, other)
-    }
-
-    private fun handleOldConfigs() {
-        if (Files.exists(oldConfigFile)) {
-            updateConfigTree()
-        }
-
-        if (Files.exists(oldConfigFileBackup)) {
-            if (Files.getLastModifiedTime(oldConfigFileBackup).toInstant() until Instant.now() >= Duration.ofDays(14)) {
-                Files.delete(oldConfigFileBackup)
-            }
-        }
-    }
-
-
-    private fun updateConfigTree() {
-        val scan = Scanner(oldConfigFile)
-        val regex = Regex("(.+) = \"?(\\w+)\"?")
-        var line = ""
-        var matchResult: MatchResult
-        while (scan.hasNextLine()) {
-            line = scan.nextLine()
-            matchResult = regex.find(line)!!
-            when (matchResult.groupValues[1]) {
-                "fastLeafDecay" -> config.fastLeafDecay = matchResult.groupValues[2].toBoolean()
-                "treeChopMode" -> config.treeChopMode = ChopMode.valueOf(matchResult.groupValues[2])
-                "fullChopDurabilityUsage" -> config.fullChopDurabilityUsage =
-                    FullChopDurabilityMode.valueOf(matchResult.groupValues[2])
-                "sneakToDisable" -> config.sneakToDisable = matchResult.groupValues[2].toBoolean()
-                "requireLeavesToChop" -> config.requireLeavesToChop = matchResult.groupValues[2].toBoolean()
-            }
-        }
-        Files.move(oldConfigFile, oldConfigFileBackup)
     }
 
     fun serialize() {
