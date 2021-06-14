@@ -56,5 +56,10 @@
       <option name="name" value="UserLocalRemappedMods" />
       <option name="url" value="file:/$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="shedaniel" />
+      <option name="name" value="shedaniel" />
+      <option name="url" value="https://maven.shedaniel.me/" />
+    </remote-repository>
   </component>
 </project>

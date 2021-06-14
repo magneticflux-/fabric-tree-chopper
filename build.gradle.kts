@@ -33,7 +33,12 @@ repositories {
         url = uri("https://maven.fabricmc.net/")
         name = "Fabric"
     }
+    maven {
+        url = uri("https://maven.shedaniel.me/")
+        name = "shedaniel"
+    }
     mavenCentral()
+    jcenter()
 }
 
 java {
@@ -41,13 +46,18 @@ java {
     targetCompatibility = JavaVersion.VERSION_16
 }
 
+val curseforge_id: String by project
 val archives_base_name: String by project
 val maven_group: String by project
 val minecraft_version: String by project
 val yarn_mappings: String by project
 val loader_version: String by project
 val fabric_version: String by project
-val curseforge_id: String by project
+val kotlin_version: String by project
+val cloth_config_version: String by project
+val fiber_2_cloth_version: String by project
+val fiber_version: String by project
+val modmenu_version: String by project
 
 base {
     archivesBaseName = archives_base_name
@@ -65,6 +75,20 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
+
+    modImplementation("net.fabricmc:fabric-language-kotlin:${kotlin_version}")
+    include("net.fabricmc:fabric-language-kotlin:${kotlin_version}")
+
+    modImplementation("io.github.prospector:modmenu:${modmenu_version}")
+
+    modImplementation("me.shedaniel.cloth:config-2:${cloth_config_version}")
+    include("me.shedaniel.cloth:config-2:${cloth_config_version}")
+
+    modImplementation("me.shedaniel.cloth:fiber2cloth:${fiber_2_cloth_version}")
+    include("me.shedaniel.cloth:fiber2cloth:${fiber_2_cloth_version}")
+
+    modImplementation("me.zeroeightsix:fiber:${fiber_version}")
+    include("me.zeroeightsix:fiber:${fiber_version}")
 }
 
 tasks.processResources {
