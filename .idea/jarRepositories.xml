@@ -61,5 +61,10 @@
       <option name="name" value="shedaniel" />
       <option name="url" value="https://maven.shedaniel.me/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="TerraformersMC" />
+      <option name="name" value="TerraformersMC" />
+      <option name="url" value="https://maven.terraformersmc.com/releases/" />
+    </remote-repository>
   </component>
 </project>

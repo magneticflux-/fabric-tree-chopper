@@ -25,7 +25,7 @@ tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
     rejectVersionIf {
         candidate.version.contains("""-M\d+""".toRegex())
-                || candidate.version.contains("RC")
+            || candidate.version.contains("RC")
     }
 }
 
@@ -38,8 +38,11 @@ repositories {
         url = uri("https://maven.shedaniel.me/")
         name = "shedaniel"
     }
+    maven {
+        url = uri("https://maven.terraformersmc.com/releases/")
+        name = "TerraformersMC"
+    }
     mavenCentral()
-    jcenter()
 }
 
 java {
@@ -80,13 +83,17 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:${kotlin_version}")
     include("net.fabricmc:fabric-language-kotlin:${kotlin_version}")
 
-    modImplementation("io.github.prospector:modmenu:${modmenu_version}")
+    modImplementation("com.terraformersmc:modmenu:${modmenu_version}")
 
-    modImplementation("me.shedaniel.cloth:config-2:${cloth_config_version}")
-    include("me.shedaniel.cloth:config-2:${cloth_config_version}")
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}")
+    include("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}")
 
-    modImplementation("me.shedaniel.cloth:fiber2cloth:${fiber_2_cloth_version}")
-    include("me.shedaniel.cloth:fiber2cloth:${fiber_2_cloth_version}")
+    modImplementation("me.shedaniel.cloth:fiber2cloth:${fiber_2_cloth_version}") {
+        isTransitive = false
+    }
+    include("me.shedaniel.cloth:fiber2cloth:${fiber_2_cloth_version}") {
+        isTransitive = false
+    }
 
     modImplementation("me.zeroeightsix:fiber:${fiber_version}")
     include("me.zeroeightsix:fiber:${fiber_version}")
