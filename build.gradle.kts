@@ -165,7 +165,7 @@ tasks.generateChangelog {
 
 tasks.githubRelease {
     dependsOn(tasks.generateChangelog)
-    repository = "magneticflux-/fabric-diagonal-panes"
+    repository = "magneticflux-/fabric-tree-chopper"
     changelog = tasks.generateChangelog.get().outputFile
     githubToken = System.getenv("GITHUB_TOKEN")
     newTagRevision = System.getenv("GITHUB_SHA")
