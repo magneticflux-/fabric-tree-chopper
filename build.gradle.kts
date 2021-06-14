@@ -5,6 +5,7 @@ import com.matthewprenger.cursegradle.CurseArtifact
 import com.matthewprenger.cursegradle.CurseProject
 import com.matthewprenger.cursegradle.CurseRelation
 import com.matthewprenger.cursegradle.Options
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
@@ -14,7 +15,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id("com.diffplug.spotless") version "5.12.5"
-    kotlin("jvm") version "1.4.21"
+    kotlin("jvm") version "1.5.10"
     id("org.shipkit.shipkit-auto-version") version "1.+"
     id("org.shipkit.shipkit-changelog") version "1.+"
     id("org.shipkit.shipkit-github-release") version "1.+"
@@ -113,6 +114,12 @@ tasks.withType<JavaCompile> {
     options.release.set(16)
 }
 
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "16"
+    }
+}
+
 java {
     // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
     // if it is present.
@@ -176,6 +183,10 @@ curseforge {
         mainArtifact(tasks.remapJar.get(), closureOf<CurseArtifact> {
             relations(closureOf<CurseRelation> {
                 requiredDependency("fabric-api")
+                embeddedLibrary("fabric-language-kotlin")
+                embeddedLibrary("cloth-config")
+                embeddedLibrary("fiber2cloth")
+                optionalDependency("modmenu")
             })
         })
         addArtifact(tasks["sourcesJar"])
