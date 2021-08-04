@@ -11,7 +11,9 @@ import net.minecraft.block.PillarBlock
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.stat.Stats
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.world.World
@@ -130,11 +132,16 @@ fun maybeBreakAllLogs(
     for (log in logs) {
         if (config.fullChopDurabilityUsage == BREAK_MID_CHOP && stack.count == 0)
             break
-        world.breakBlock(log, false)
+        world.breakBlock(log, false, miner)
         logsBroken++
 
         if (config.fullChopDurabilityUsage == BREAK_AFTER_CHOP || config.fullChopDurabilityUsage == BREAK_MID_CHOP)
             stack.damage(1, miner) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
+
+        if (miner is PlayerEntity) {
+            miner.incrementStat(Stats.MINED.getOrCreateStat(originalBlockState.block))
+            miner.addExhaustion(0.005f)
+        }
     }
 
     world.spawnEntity(
