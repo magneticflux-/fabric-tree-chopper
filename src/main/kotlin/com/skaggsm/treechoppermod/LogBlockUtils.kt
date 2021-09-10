@@ -28,28 +28,28 @@ private val BlockState.isChoppable: Boolean
     }
 
 private val directions = linkedSetOf(
-    // Above top
+    // Above touching face
     Vec3i(0, 1, 0),
 
-    // Above touching
+    // Above touching edge
     Vec3i(1, 1, 0),
     Vec3i(-1, 1, 0),
     Vec3i(0, 1, 1),
     Vec3i(0, 1, -1),
 
-    // Above diagonal
+    // Above touching corner
     Vec3i(1, 1, 1),
     Vec3i(1, 1, -1),
     Vec3i(-1, 1, 1),
     Vec3i(-1, 1, -1),
 
-    // Side touching
+    // Side touching face
     Vec3i(1, 0, 0),
     Vec3i(-1, 0, 0),
     Vec3i(0, 0, 1),
     Vec3i(0, 0, -1),
 
-    // Side diagonal
+    // Side touching edge
     Vec3i(1, 0, 1),
     Vec3i(1, 0, -1),
     Vec3i(-1, 0, 1),
@@ -94,12 +94,17 @@ private fun findAllLogsAbove(originalBlockState: BlockState, world: World, origi
                 }
             }
         foundLogs += log
+        if (config.logSearchLimit >= 0 && foundLogs.size > config.logSearchLimit)
+        // We've found enough logs, stop now to prevent lag when breaking huge modded trees
+            break
     }
+
+    foundLogs -= originalBlockPos
 
     return if (config.requireLeavesToChop && !foundNaturalLeaf)
         emptySet()
     else
-        foundLogs - originalBlockPos
+        foundLogs
 }
 
 private fun <E> LinkedHashSet<E>.pop(): E {

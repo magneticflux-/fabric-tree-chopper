@@ -8,7 +8,6 @@ import com.terraformersmc.modmenu.api.ModMenuApi
 import me.shedaniel.fiber2cloth.api.Fiber2Cloth
 import net.minecraft.client.gui.screen.Screen
 
-@Suppress("unused")
 class FabricTreeChopperConfigScreen : ModMenuApi {
     override fun getModConfigScreenFactory(): ConfigScreenFactory<Screen> {
         return ConfigScreenFactory {
