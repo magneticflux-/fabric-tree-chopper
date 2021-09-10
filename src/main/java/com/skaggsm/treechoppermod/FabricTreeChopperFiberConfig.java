@@ -13,4 +13,5 @@ public class FabricTreeChopperFiberConfig {
     @NotNull
     public ChopMode treeChopMode = ChopMode.SINGLE_CHOP;
     public int logSearchLimit = -1;
+    public boolean stopBeforeAxeBreak = true;
 }
