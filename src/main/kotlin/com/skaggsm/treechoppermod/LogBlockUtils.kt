@@ -11,7 +11,6 @@ import net.minecraft.block.Material
 import net.minecraft.block.PillarBlock
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.stat.Stats
@@ -147,7 +146,7 @@ fun maybeBreakAllLogs(
     world: World,
     pos: BlockPos,
     stack: ItemStack,
-    miner: LivingEntity
+    miner: PlayerEntity
 ) {
     val logs = findAllLogsAbove(originalBlockState, world, pos)
     var logsBroken = 0
@@ -159,10 +158,8 @@ fun maybeBreakAllLogs(
         world.breakBlock(log, false, miner)
         logsBroken++
 
-        if (miner is PlayerEntity) {
-            miner.incrementStat(Stats.MINED.getOrCreateStat(originalBlockState.block))
-            miner.addExhaustion(0.005f)
-        }
+        miner.incrementStat(Stats.MINED.getOrCreateStat(originalBlockState.block))
+        miner.addExhaustion(0.005f)
 
         // Do the damage incrementally
         if (config.fullChopDurabilityUsage == BREAK_MID_CHOP) {
@@ -189,7 +186,7 @@ fun maybeBreakAllLogs(
     )
 }
 
-fun tryLogBreak(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: LivingEntity) {
+fun tryLogBreak(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: PlayerEntity) {
     if (state.isChoppable && !(miner.isSneaking && config.sneakToDisable)) {
         when (config.treeChopMode) {
             ChopMode.FULL_CHOP -> maybeBreakAllLogs(state, world, pos, stack, miner)
