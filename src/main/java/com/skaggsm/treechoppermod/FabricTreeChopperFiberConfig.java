@@ -4,7 +4,6 @@ import me.shedaniel.fiber2cloth.api.ClothSetting;
 import org.jetbrains.annotations.NotNull;
 
 public class FabricTreeChopperFiberConfig {
-
     public boolean fastLeafDecay = true;
     @NotNull
     @ClothSetting.Tooltip("config.fabric-tree-chopper.fullChopDurabilityUsage@Tooltip")
@@ -13,5 +12,6 @@ public class FabricTreeChopperFiberConfig {
     public boolean requireLeavesToChop = true;
     @NotNull
     public ChopMode treeChopMode = ChopMode.SINGLE_CHOP;
+    public int logSearchLimit = -1;
+    public boolean stopBeforeAxeBreak = true;
 }
-

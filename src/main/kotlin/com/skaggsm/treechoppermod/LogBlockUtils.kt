@@ -29,28 +29,28 @@ private val BlockState.isChoppable: Boolean
     }
 
 private val directions = linkedSetOf(
-    // Above top
+    // Above touching face
     Vec3i(0, 1, 0),
 
-    // Above touching
+    // Above touching edge
     Vec3i(1, 1, 0),
     Vec3i(-1, 1, 0),
     Vec3i(0, 1, 1),
     Vec3i(0, 1, -1),
 
-    // Above diagonal
+    // Above touching corner
     Vec3i(1, 1, 1),
     Vec3i(1, 1, -1),
     Vec3i(-1, 1, 1),
     Vec3i(-1, 1, -1),
 
-    // Side touching
+    // Side touching face
     Vec3i(1, 0, 0),
     Vec3i(-1, 0, 0),
     Vec3i(0, 0, 1),
     Vec3i(0, 0, -1),
 
-    // Side diagonal
+    // Side touching edge
     Vec3i(1, 0, 1),
     Vec3i(1, 0, -1),
     Vec3i(-1, 0, 1),
@@ -97,6 +97,9 @@ private fun findAllLogsAbove(originalBlockState: BlockState, world: World, origi
                 }
             }
         foundLogs += log
+        if (config.logSearchLimit >= 0 && foundLogs.size > config.logSearchLimit)
+        // We've found enough logs, stop now to prevent lag when breaking huge modded trees
+            break
     }
     // Cache each log found to remember leaves later
     if (foundNaturalLeaf)
@@ -130,6 +133,13 @@ private operator fun BlockPos.plus(it: Vec3i): BlockPos {
 }
 
 /**
+ * If we should stop breaking logs (the axe in [stack] only has 1 durability left)
+ */
+private fun shouldStop(stack: ItemStack): Boolean {
+    return config.stopBeforeAxeBreak && stack.maxDamage - stack.damage < 2
+}
+
+/**
  * If there are other logs, breaks all of them and drops them at [pos].
  */
 fun maybeBreakAllLogs(
@@ -143,17 +153,31 @@ fun maybeBreakAllLogs(
     var logsBroken = 0
 
     for (log in logs) {
-        if (config.fullChopDurabilityUsage == BREAK_MID_CHOP && stack.count == 0)
+        // Check if the axe has broken and abort if so
+        if (stack.count == 0)
             break
         world.breakBlock(log, false, miner)
         logsBroken++
 
-        if (config.fullChopDurabilityUsage == BREAK_AFTER_CHOP || config.fullChopDurabilityUsage == BREAK_MID_CHOP)
-            stack.damage(1, miner) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
-
         if (miner is PlayerEntity) {
             miner.incrementStat(Stats.MINED.getOrCreateStat(originalBlockState.block))
             miner.addExhaustion(0.005f)
+        }
+
+        // Do the damage incrementally
+        if (config.fullChopDurabilityUsage == BREAK_MID_CHOP) {
+            stack.damage(1, miner) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
+            if (shouldStop(stack))
+                break
+        }
+    }
+
+    // Do all the damage at once after the whole tree is chopped
+    if (config.fullChopDurabilityUsage == BREAK_AFTER_CHOP) {
+        for (i in 0 until logsBroken) {
+            stack.damage(1, miner) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
+            if (shouldStop(stack))
+                break
         }
     }
 
