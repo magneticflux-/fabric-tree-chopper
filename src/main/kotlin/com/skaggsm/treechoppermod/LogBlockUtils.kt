@@ -1,5 +1,6 @@
 package com.skaggsm.treechoppermod
 
+import com.google.common.cache.CacheBuilder
 import com.skaggsm.treechoppermod.FabricTreeChopper.config
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_AFTER_CHOP
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_MID_CHOP
@@ -58,6 +59,8 @@ private val directions = linkedSetOf(
     // Reversed so that the top gets added to the output list last and gets picked first. Makes log breaking look more "natural".
     .reversed()
 
+private val WAS_TOUCHING_NATURAL_LEAVES = CacheBuilder.newBuilder().maximumSize(1024L * 64).build<BlockPos, Unit>()
+
 /**
  * If there are other logs, finds the furthest one and swaps it into [blockPos].
  */
@@ -84,7 +87,7 @@ private fun findAllLogsAbove(originalBlockState: BlockState, world: World, origi
 
     while (logQueue.isNotEmpty()) {
         val log = logQueue.pop()
-        directions.map { log + it }
+        directions.map(log::plus)
             .forEach {
                 val state = world.getBlockState(it)
                 if (originalBlockState.block == state.block && it !in foundLogs)
@@ -98,10 +101,18 @@ private fun findAllLogsAbove(originalBlockState: BlockState, world: World, origi
         // We've found enough logs, stop now to prevent lag when breaking huge modded trees
             break
     }
+    // Cache each log found to remember leaves later
+    if (foundNaturalLeaf)
+        for (log in foundLogs) {
+            WAS_TOUCHING_NATURAL_LEAVES.put(log.toImmutable(), Unit)
+        }
 
+    // The original block was already broken, skip returning it
     foundLogs -= originalBlockPos
 
-    return if (config.requireLeavesToChop && !foundNaturalLeaf)
+    val wasTouchingNaturalLeaves = WAS_TOUCHING_NATURAL_LEAVES.getIfPresent(originalBlockPos) != null
+
+    return if (config.requireLeavesToChop && !(foundNaturalLeaf || wasTouchingNaturalLeaves))
         emptySet()
     else
         foundLogs
