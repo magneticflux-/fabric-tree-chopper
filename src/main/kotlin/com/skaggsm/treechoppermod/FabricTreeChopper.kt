@@ -5,10 +5,12 @@ import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.FiberSerialization
 import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.JanksonValueSerializer
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigBranch
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigTree
+import me.shedaniel.fiber2cloth.api.DefaultTypes
 import me.shedaniel.fiber2cloth.api.Fiber2Cloth
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.util.Identifier
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -32,6 +34,7 @@ object FabricTreeChopper : ModInitializer {
         val settingsBuilder = AnnotatedSettings.builder()
         if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
             Fiber2Cloth.configure(settingsBuilder)
+        settingsBuilder.registerTypeMapping(Identifier::class.java, DefaultTypes.IDENTIFIER_TYPE)
         val settings = settingsBuilder.build()
 
         configTree = ConfigTree.builder().applyFromPojo(config, settings).build()
