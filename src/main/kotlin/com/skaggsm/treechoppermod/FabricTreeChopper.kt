@@ -52,9 +52,11 @@ object FabricTreeChopper : ModInitializer {
         deserialize()
 
         PlayerBlockBreakEvents.AFTER.register(PlayerBlockBreakEvents.After { world, player, pos, state, _ ->
-            val breakingStack = player.mainHandStack
-            if (breakingStack.item.id in config.axes)
-                tryLogBreak(breakingStack, world, state, pos, player)
+            if (config.chopInCreativeMode || !player.isCreative) {
+                val breakingStack = player.mainHandStack
+                if (breakingStack.item.id in config.axes)
+                    tryLogBreak(breakingStack, world, state, pos, player)
+            }
         })
     }
 

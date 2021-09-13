@@ -19,5 +19,6 @@ public class FabricTreeChopperFiberConfig {
     public ChopMode treeChopMode = ChopMode.SINGLE_CHOP;
     public int logSearchLimit = -1;
     public boolean stopBeforeAxeBreak = true;
+    public boolean chopInCreativeMode = false;
     public List<Identifier> axes = Registry.ITEM.stream().filter(AxeItem.class::isInstance).map(Registry.ITEM::getId).toList();
 }

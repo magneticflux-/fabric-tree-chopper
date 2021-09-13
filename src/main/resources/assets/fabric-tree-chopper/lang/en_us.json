@@ -9,5 +9,6 @@
   "config.fabric-tree-chopper.requireLeavesToChop": "Disable chopping if no natural leaves touch the logs",
   "config.fabric-tree-chopper.logSearchLimit": "Log search limit (-1 to disable)",
   "config.fabric-tree-chopper.stopBeforeAxeBreak": "Stop before axe break",
+  "config.fabric-tree-chopper.chopInCreativeMode": "Chop in creative mode",
   "config.fabric-tree-chopper.axes": "Axes"
 }
