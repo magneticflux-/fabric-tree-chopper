@@ -12,13 +12,14 @@ import io.github.fablabsmc.fablabs.api.fiber.v1.schema.type.derived.ListConfigTy
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigLeaf
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.PropertyMirror
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder
-import me.shedaniel.fiber2cloth.api.DefaultTypes
+import me.shedaniel.fiber2cloth.api.ClothAttributes
+import me.shedaniel.fiber2cloth.api.DefaultTypes.IDENTIFIER_TYPE
 import me.shedaniel.fiber2cloth.api.Fiber2Cloth
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 import java.util.Optional
 import java.util.function.Function
 
@@ -29,7 +30,9 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
                 .setSaveRunnable {
                     serialize()
                 }
-                .registerLeafEntryFunction(IDENTIFIER_LIST) { leaf: ConfigLeaf<List<String>>, type: ListSerializableType<String>, mirror: PropertyMirror<List<Identifier>>, defaultValue: List<Identifier>, errorSupplier: Function<List<Identifier>, Optional<Text>> ->
+                .registerLeafEntryFunction(IDENTIFIER_LIST) { leaf: ConfigLeaf<List<String>>, _: ListSerializableType<String>, mirror: PropertyMirror<List<Identifier>>, defaultValue: List<Identifier>, _: Function<List<Identifier>, Optional<Text>> ->
+                    val registry = leaf.getAttributeValue(ClothAttributes.REGISTRY_INPUT, IDENTIFIER_TYPE)
+                        .flatMap(Registry.REGISTRIES::getOrEmpty).orElse(null)
                     listOf(
                         configEntryBuilder
                             .startStrList(
@@ -41,11 +44,25 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
                             .setSaveConsumer { value: List<String> ->
                                 mirror.setValue(IDENTIFIER_LIST.toRuntimeType(value))
                             }
-                            .setErrorSupplier {
+                            .setCellErrorSupplier {
                                 try {
-                                    errorSupplier.apply(IDENTIFIER_LIST.toRuntimeType(it))
+                                    val id = IDENTIFIER_TYPE.toRuntimeType(it)
+                                    if (registry != null && !registry.containsId(id))
+                                        return@setCellErrorSupplier Optional.of(
+                                            TranslatableText(
+                                                "config.error.fabric-tree-chopper.identifierNotInRegistry",
+                                                id,
+                                                registry.key.value
+                                            )
+                                        )
+                                    Optional.empty()
                                 } catch (e: FiberConversionException) {
-                                    Optional.of(LiteralText(e.localizedMessage))
+                                    Optional.of(
+                                        TranslatableText(
+                                            "config.error.fabric-tree-chopper.identifierInvalid",
+                                            it
+                                        )
+                                    )
                                 }
                             }
                             .build()
@@ -58,7 +75,7 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
 
     companion object {
         val IDENTIFIER_LIST: ListConfigType<List<Identifier>, String> =
-            ConfigTypes.makeList(DefaultTypes.IDENTIFIER_TYPE)
+            ConfigTypes.makeList(IDENTIFIER_TYPE)
         val configEntryBuilder: ConfigEntryBuilder = ConfigEntryBuilder.create()
     }
 }

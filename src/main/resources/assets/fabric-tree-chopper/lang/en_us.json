@@ -10,5 +10,7 @@
   "config.fabric-tree-chopper.logSearchLimit": "Log search limit (-1 to disable)",
   "config.fabric-tree-chopper.stopBeforeAxeBreak": "Stop before axe break",
   "config.fabric-tree-chopper.chopInCreativeMode": "Chop in creative mode",
-  "config.fabric-tree-chopper.axes": "Axes"
+  "config.fabric-tree-chopper.axes": "Axes",
+  "config.error.fabric-tree-chopper.identifierNotInRegistry": "Identifier \"%s\" not in Registry \"%s\"",
+  "config.error.fabric-tree-chopper.identifierInvalid": "Invalid Identifier \"%s\" in list"
 }
