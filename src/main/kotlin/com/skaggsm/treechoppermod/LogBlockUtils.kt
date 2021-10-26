@@ -12,10 +12,14 @@ import net.minecraft.block.PillarBlock
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.stat.Stats
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
+import net.minecraft.util.registry.Registry
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 private val BlockState.isNaturalLeaf: Boolean
@@ -26,6 +30,9 @@ private val BlockState.isChoppable: Boolean
     get() {
         return this.block is PillarBlock && (this.material == Material.WOOD || this.material == Material.NETHER_WOOD)
     }
+
+private val Item.id: Identifier
+    get() = Registry.ITEM.getId(this)
 
 private val directions = linkedSetOf(
     // Above touching face
@@ -77,7 +84,7 @@ private fun findFurthestLog(originalBlockState: BlockState, world: World, blockP
     return logs.lastOrNull()
 }
 
-private fun findAllLogsAbove(originalBlockState: BlockState, world: World, originalBlockPos: BlockPos): Set<BlockPos> {
+fun findAllLogsAbove(originalBlockState: BlockState, world: BlockView, originalBlockPos: BlockPos): Set<BlockPos> {
     val logQueue = linkedSetOf<BlockPos>()
     val foundLogs = linkedSetOf<BlockPos>()
     var foundNaturalLeaf = false
@@ -132,10 +139,10 @@ private operator fun BlockPos.plus(it: Vec3i): BlockPos {
 }
 
 /**
- * If we should stop breaking logs (the axe in [stack] only has 1 durability left)
+ * If we should stop breaking logs (the axe in [stack] only has 2 durability left, one for the vanilla log break)
  */
 private fun shouldStop(stack: ItemStack): Boolean {
-    return config.stopBeforeAxeBreak && stack.maxDamage - stack.damage < 2
+    return config.stopBeforeAxeBreak && (stack.maxDamage - stack.damage - 1) < 2
 }
 
 /**
@@ -145,9 +152,9 @@ fun maybeBreakAllLogs(
     originalBlockState: BlockState,
     world: World,
     pos: BlockPos,
-    stack: ItemStack,
     miner: PlayerEntity
 ) {
+    val stack = miner.mainHandStack
     val logs = findAllLogsAbove(originalBlockState, world, pos)
     var logsBroken = 0
 
@@ -186,10 +193,17 @@ fun maybeBreakAllLogs(
     )
 }
 
-fun tryLogBreak(stack: ItemStack, world: World, state: BlockState, pos: BlockPos, miner: PlayerEntity) {
-    if (state.isChoppable && !(miner.isSneaking && config.sneakToDisable)) {
+fun canBreakLog(player: PlayerEntity, state: BlockState): Boolean {
+    return state.isChoppable &&
+        !(player.isSneaking && config.sneakToDisable) &&
+        !(player.isCreative && !config.chopInCreativeMode) &&
+        player.mainHandStack.item.id in config.axes
+}
+
+fun tryLogBreak(world: World, player: PlayerEntity, pos: BlockPos, state: BlockState) {
+    if (canBreakLog(player, state)) {
         when (config.treeChopMode) {
-            ChopMode.FULL_CHOP -> maybeBreakAllLogs(state, world, pos, stack, miner)
+            ChopMode.FULL_CHOP -> maybeBreakAllLogs(state, world, pos, player)
             ChopMode.SINGLE_CHOP -> maybeSwapFurthestLog(state, world, pos)
             ChopMode.VANILLA_CHOP -> {
             }

@@ -17,9 +17,10 @@ public class FabricTreeChopperFiberConfig {
     public boolean requireLeavesToChop = true;
     @NotNull
     public ChopMode treeChopMode = ChopMode.SINGLE_CHOP;
-    public int logSearchLimit = -1;
+    public int logSearchLimit = 1000;
     public boolean stopBeforeAxeBreak = true;
     public boolean chopInCreativeMode = false;
     @ClothSetting.RegistryInput("minecraft:item")
     public List<Identifier> axes = Registry.ITEM.stream().filter(AxeItem.class::isInstance).map(Registry.ITEM::getId).toList();
+    public boolean variableBreakingTime = false;
 }
