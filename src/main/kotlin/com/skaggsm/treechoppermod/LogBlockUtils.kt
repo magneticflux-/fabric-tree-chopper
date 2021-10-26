@@ -139,10 +139,10 @@ private operator fun BlockPos.plus(it: Vec3i): BlockPos {
 }
 
 /**
- * If we should stop breaking logs (the axe in [stack] only has 1 durability left)
+ * If we should stop breaking logs (the axe in [stack] only has 2 durability left, one for the vanilla log break)
  */
 private fun shouldStop(stack: ItemStack): Boolean {
-    return config.stopBeforeAxeBreak && stack.maxDamage - stack.damage < 2
+    return config.stopBeforeAxeBreak && (stack.maxDamage - stack.damage - 1) < 2
 }
 
 /**
