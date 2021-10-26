@@ -22,4 +22,5 @@ public class FabricTreeChopperFiberConfig {
     public boolean chopInCreativeMode = false;
     @ClothSetting.RegistryInput("minecraft:item")
     public List<Identifier> axes = Registry.ITEM.stream().filter(AxeItem.class::isInstance).map(Registry.ITEM::getId).toList();
+    public boolean variableBreakingTime = false;
 }
