@@ -1,6 +1,6 @@
-[![](http://cf.way2muchnoise.eu/short_fabric-tree-chopper_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/fabric-tree-chopper)
-[![](http://cf.way2muchnoise.eu/versions/fabric-tree-chopper_all.svg)](https://www.curseforge.com/minecraft/mc-mods/fabric-tree-chopper)
-[![](http://cf.way2muchnoise.eu/packs/short_fabric-tree-chopper.svg)](https://www.curseforge.com/minecraft/mc-mods/fabric-tree-chopper)
+[![](http://cf.way2muchnoise.eu/short_333854_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/fabric-tree-chopper)
+[![](http://cf.way2muchnoise.eu/versions/333854_all.svg)](https://www.curseforge.com/minecraft/mc-mods/fabric-tree-chopper)
+[![](http://cf.way2muchnoise.eu/packs/short_333854.svg)](https://www.curseforge.com/minecraft/mc-mods/fabric-tree-chopper)
 
 # fabric-tree-chopper
 A Fabric mod to make cutting down trees easier and more realistic.
@@ -18,7 +18,7 @@ The server must be configured through the config file.
 
 ## Config File
 
-The config file is located at `.minecraft/config/fabric-tree-chopper.toml`.
+The config file is located at `.minecraft/config/fabric-tree-chopper.json`.
 
 Available options:
 
@@ -32,6 +32,8 @@ Available options:
   - `true` or `false`
 - `requireLeavesToChop`
   - `true` or `false`
+
+Details are availble in the ModMenu config screen.
 
 ---
 
