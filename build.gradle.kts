@@ -11,11 +11,11 @@ plugins {
     java
     idea
     `maven-publish`
-    id("fabric-loom") version "0.8-SNAPSHOT"
+    id("fabric-loom") version "0.9.+"
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.diffplug.spotless") version "5.14.2"
-    kotlin("jvm") version "1.5.21"
+    id("com.diffplug.spotless") version "5.17.0"
+    kotlin("jvm") version "1.5.31"
     id("org.shipkit.shipkit-auto-version") version "1.+"
     id("org.shipkit.shipkit-changelog") version "1.+"
     id("org.shipkit.shipkit-github-release") version "1.+"
@@ -24,7 +24,7 @@ plugins {
 tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
     rejectVersionIf {
-        candidate.version.contains("""-M\d+""".toRegex()) ||
+        candidate.version.contains("""[-.]M\d+""".toRegex()) ||
             candidate.version.contains("RC")
     }
 }
@@ -214,10 +214,10 @@ curseforge {
 
 spotless {
     kotlin {
-        ktlint("0.42.0")
+        ktlint("0.42.1")
     }
     kotlinGradle {
-        ktlint("0.42.0")
+        ktlint("0.42.1")
     }
 }
 
