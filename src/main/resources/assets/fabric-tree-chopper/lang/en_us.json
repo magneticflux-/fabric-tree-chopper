@@ -5,7 +5,7 @@
   "config.fabric-tree-chopper.treeChopMode": "Tree chop mode",
   "config.fabric-tree-chopper.fullChopDurabilityUsage": "Full chop durability usage",
   "config.fabric-tree-chopper.fullChopDurabilityUsage@Tooltip": "Only effective with tree chop mode \"FULL_CHOP\"",
-  "config.fabric-tree-chopper.sneakToDisable": "Disable chopping when sneaking",
+  "config.fabric-tree-chopper.sneakBehavior": "Chop behavior while sneaking",
   "config.fabric-tree-chopper.requireLeavesToChop": "Disable chopping if no natural leaves touch the logs",
   "config.fabric-tree-chopper.logSearchLimit": "Log search limit (-1 to disable)",
   "config.fabric-tree-chopper.stopBeforeAxeBreak": "Stop before axe break",

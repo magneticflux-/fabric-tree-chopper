@@ -13,7 +13,7 @@ public class FabricTreeChopperFiberConfig {
     @NotNull
     @ClothSetting.Tooltip("config.fabric-tree-chopper.fullChopDurabilityUsage@Tooltip")
     public FullChopDurabilityMode fullChopDurabilityUsage = FullChopDurabilityMode.BREAK_MID_CHOP;
-    public boolean sneakToDisable = true;
+    public SneakBehavior sneakBehavior = SneakBehavior.DISABLE_CHOPPING;
     public boolean requireLeavesToChop = true;
     @NotNull
     public ChopMode treeChopMode = ChopMode.SINGLE_CHOP;
@@ -24,3 +24,4 @@ public class FabricTreeChopperFiberConfig {
     public List<Identifier> axes = Registry.ITEM.stream().filter(AxeItem.class::isInstance).map(Registry.ITEM::getId).toList();
     public boolean variableBreakingTime = false;
 }
+
