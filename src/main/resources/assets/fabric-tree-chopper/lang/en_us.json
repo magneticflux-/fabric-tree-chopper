@@ -12,5 +12,6 @@
   "config.fabric-tree-chopper.chopInCreativeMode": "Chop in creative mode",
   "config.fabric-tree-chopper.axes": "Axes",
   "config.error.fabric-tree-chopper.identifierNotInRegistry": "Identifier \"%s\" not in Registry \"%s\"",
-  "config.error.fabric-tree-chopper.identifierInvalid": "Invalid Identifier \"%s\" in list"
+  "config.error.fabric-tree-chopper.identifierInvalid": "Invalid Identifier \"%s\" in list",
+  "config.fabric-tree-chopper.variableBreakingTime": "Slow down chopping of multiple logs"
 }
