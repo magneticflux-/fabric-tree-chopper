@@ -1,6 +1,8 @@
 package com.skaggsm.treechoppermod
 
 import io.github.fablabsmc.fablabs.api.fiber.v1.annotation.AnnotatedSettings
+import io.github.fablabsmc.fablabs.api.fiber.v1.schema.type.derived.ConfigTypes
+import io.github.fablabsmc.fablabs.api.fiber.v1.schema.type.derived.StringConfigType
 import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.FiberSerialization
 import io.github.fablabsmc.fablabs.api.fiber.v1.serialization.JanksonValueSerializer
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigBranch
@@ -22,6 +24,9 @@ import java.nio.file.StandardOpenOption
  */
 object FabricTreeChopper : ModInitializer {
     const val MODID = "fabric-tree-chopper"
+    private val IDENTIFIER_TYPE: StringConfigType<Identifier> = ConfigTypes.STRING
+        .withPattern("(?>[a-z0-9_.-]+:)?[a-z0-9/._-]+")
+        .derive(Identifier::class.java, ::Identifier, Identifier::toString)
 
     private val serializer = JanksonValueSerializer(false)
     private val configFile: Path = Paths.get("config", "fabric-tree-chopper.json")
@@ -33,9 +38,12 @@ object FabricTreeChopper : ModInitializer {
         config = FabricTreeChopperFiberConfig()
 
         val settingsBuilder = AnnotatedSettings.builder()
-        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT)
+        if (FabricLoader.getInstance().environmentType == EnvType.CLIENT) {
             Fiber2Cloth.configure(settingsBuilder)
-        settingsBuilder.registerTypeMapping(Identifier::class.java, DefaultTypes.IDENTIFIER_TYPE)
+            settingsBuilder.registerTypeMapping(Identifier::class.java, DefaultTypes.IDENTIFIER_TYPE)
+        } else {
+            settingsBuilder.registerTypeMapping(Identifier::class.java, IDENTIFIER_TYPE)
+        }
         val settings = settingsBuilder.build()
 
         configTree = ConfigTree.builder().applyFromPojo(config, settings).build()
