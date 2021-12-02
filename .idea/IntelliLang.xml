@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LanguageInjectionConfiguration">
+    <injection language="JQuery-CSS" injector-id="java">
+      <display-name>Selenium CSS (com.codeborne.selenide)</display-name>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideDriver&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideElement&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$&quot;).withParameters(&quot;java.lang.String&quot;, &quot;int&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$&quot;).withParameters(&quot;java.lang.String&quot;, &quot;int&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideDriver&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$&quot;).withParameters(&quot;java.lang.String&quot;, &quot;int&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideElement&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$$&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$$&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideDriver&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;$$&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideElement&quot;))</place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("ancestor").withParameters("java.lang.String").definedInClass("com.codeborne.selenide.SelenideElement"))]]></place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;byCssSelector&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.Selectors&quot;))</place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("closest").withParameters("java.lang.String").definedInClass("com.codeborne.selenide.SelenideElement"))]]></place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;dragAndDropTo&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideElement&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;element&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;element&quot;).withParameters(&quot;java.lang.String&quot;, &quot;int&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;elements&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;find&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideDriver&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;find&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideElement&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;find&quot;).withParameters(&quot;java.lang.String&quot;, &quot;int&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideElement&quot;))</place>
+      <place>psiParameter().ofMethod(0, psiMethod().withName(&quot;findAll&quot;).withParameters(&quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.SelenideElement&quot;))</place>
+      <place>psiParameter().ofMethod(1, psiMethod().withName(&quot;$&quot;).withParameters(&quot;org.openqa.selenium.WebElement&quot;, &quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(1, psiMethod().withName(&quot;$&quot;).withParameters(&quot;org.openqa.selenium.WebElement&quot;, &quot;java.lang.String&quot;, &quot;int&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(1, psiMethod().withName(&quot;$$&quot;).withParameters(&quot;org.openqa.selenium.WebElement&quot;, &quot;java.lang.String&quot;).definedInClass(&quot;com.codeborne.selenide.Selenide&quot;))</place>
+      <place>psiParameter().ofMethod(psiMethod().withName(&quot;cssSelector&quot;).definedInClass(&quot;com.codeborne.selenide.selector.ByShadow&quot;))</place>
+      <place>psiParameter().ofMethod(psiMethod().withName(&quot;shadowCss&quot;).definedInClass(&quot;com.codeborne.selenide.Selectors&quot;))</place>
+    </injection>
+  </component>
+</project>

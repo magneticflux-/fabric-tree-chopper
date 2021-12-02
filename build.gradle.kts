@@ -11,11 +11,11 @@ plugins {
     java
     idea
     `maven-publish`
-    id("fabric-loom") version "0.9.+"
+    id("fabric-loom") version "0.10-SNAPSHOT"
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.diffplug.spotless") version "5.17.0"
-    kotlin("jvm") version "1.5.31"
+    id("com.diffplug.spotless") version "6.0.1"
+    kotlin("jvm") version "1.6.0"
     id("org.shipkit.shipkit-auto-version") version "1.+"
     id("org.shipkit.shipkit-changelog") version "1.+"
     id("org.shipkit.shipkit-github-release") version "1.+"
@@ -24,8 +24,7 @@ plugins {
 tasks.withType<DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
     rejectVersionIf {
-        candidate.version.contains("""[-.]M\d+""".toRegex()) ||
-            candidate.version.contains("RC")
+        candidate.version.contains("""[-.]M\d+""".toRegex()) || candidate.version.contains("RC")
     }
 }
 
@@ -68,8 +67,7 @@ base {
     group = maven_group
 }
 
-minecraft {
-}
+minecraft {}
 
 dependencies {
     // to change the versions see the gradle.properties file
@@ -117,13 +115,13 @@ tasks.withType<JavaCompile> {
     // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
     // If Javadoc is generated, this must be specified in that task too.
     options.encoding = "UTF-8"
-    // Minecraft 1.17 (21w19a) upwards uses Java 16.
-    options.release.set(16)
+
+    options.release.set(17)
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "16"
+        jvmTarget = "17"
     }
 }
 
@@ -180,36 +178,26 @@ curseforge {
         else -> println("No CurseForge API key found, \'curseforge\' tasks will not work")
     }
 
-    project(
-        closureOf<CurseProject> {
-            id = curseforge_id
-            releaseType = "release"
-            addGameVersion(minecraft_version)
-            addGameVersion("Fabric")
-            changelog =
-                "View the latest changelog here: https://github.com/magneticflux-/fabric-tree-chopper/releases"
-            mainArtifact(
-                tasks.remapJar.get(),
-                closureOf<CurseArtifact> {
-                    relations(
-                        closureOf<CurseRelation> {
-                            requiredDependency("fabric-api")
-                            embeddedLibrary("fabric-language-kotlin")
-                            embeddedLibrary("cloth-config")
-                            embeddedLibrary("fiber2cloth")
-                            optionalDependency("modmenu")
-                        }
-                    )
-                }
-            )
-            addArtifact(tasks["sourcesJar"])
-        }
-    )
-    options(
-        closureOf<Options> {
-            forgeGradleIntegration = false
-        }
-    )
+    project(closureOf<CurseProject> {
+        id = curseforge_id
+        releaseType = "release"
+        addGameVersion(minecraft_version)
+        addGameVersion("Fabric")
+        changelog = "View the latest changelog here: https://github.com/magneticflux-/fabric-tree-chopper/releases"
+        mainArtifact(tasks.remapJar.get(), closureOf<CurseArtifact> {
+            relations(closureOf<CurseRelation> {
+                requiredDependency("fabric-api")
+                embeddedLibrary("fabric-language-kotlin")
+                embeddedLibrary("cloth-config")
+                embeddedLibrary("fiber2cloth")
+                optionalDependency("modmenu")
+            })
+        })
+        addArtifact(tasks["sourcesJar"])
+    })
+    options(closureOf<Options> {
+        forgeGradleIntegration = false
+    })
 }
 
 spotless {
