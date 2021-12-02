@@ -178,34 +178,43 @@ curseforge {
         else -> println("No CurseForge API key found, \'curseforge\' tasks will not work")
     }
 
-    project(closureOf<CurseProject> {
-        id = curseforge_id
-        releaseType = "release"
-        addGameVersion(minecraft_version)
-        addGameVersion("Fabric")
-        changelog = "View the latest changelog here: https://github.com/magneticflux-/fabric-tree-chopper/releases"
-        mainArtifact(tasks.remapJar.get(), closureOf<CurseArtifact> {
-            relations(closureOf<CurseRelation> {
-                requiredDependency("fabric-api")
-                embeddedLibrary("fabric-language-kotlin")
-                embeddedLibrary("cloth-config")
-                embeddedLibrary("fiber2cloth")
-                optionalDependency("modmenu")
-            })
-        })
-        addArtifact(tasks["sourcesJar"])
-    })
-    options(closureOf<Options> {
-        forgeGradleIntegration = false
-    })
+    project(
+        closureOf<CurseProject> {
+            id = curseforge_id
+            releaseType = "release"
+            addGameVersion(minecraft_version)
+            addGameVersion("Fabric")
+            changelog = "View the latest changelog here: https://github.com/magneticflux-/fabric-tree-chopper/releases"
+            mainArtifact(
+                tasks.remapJar.get(),
+                closureOf<CurseArtifact> {
+                    relations(
+                        closureOf<CurseRelation> {
+                            requiredDependency("fabric-api")
+                            embeddedLibrary("fabric-language-kotlin")
+                            embeddedLibrary("cloth-config")
+                            embeddedLibrary("fiber2cloth")
+                            optionalDependency("modmenu")
+                        }
+                    )
+                }
+            )
+            addArtifact(tasks["sourcesJar"])
+        }
+    )
+    options(
+        closureOf<Options> {
+            forgeGradleIntegration = false
+        }
+    )
 }
 
 spotless {
     kotlin {
-        ktlint("0.42.1")
+        ktlint("0.43.0")
     }
     kotlinGradle {
-        ktlint("0.42.1")
+        ktlint("0.43.0")
     }
 }
 
