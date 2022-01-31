@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilder
 import com.skaggsm.treechoppermod.FabricTreeChopper.config
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_AFTER_CHOP
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_MID_CHOP
+import net.minecraft.SharedConstants
 import net.minecraft.block.BlockState
 import net.minecraft.block.FungusBlock
 import net.minecraft.block.LeavesBlock
@@ -93,10 +94,10 @@ fun findAllLogsAbove(originalBlockState: BlockState, world: World, originalBlock
     // Leaf cache check
     val currentTick = world.time
     val lastTouchingLeafTime =
-        WAS_TOUCHING_NATURAL_LEAVES.getIfPresent(originalBlockPos) ?: 0 // Default to before everything
+        WAS_TOUCHING_NATURAL_LEAVES.getIfPresent(originalBlockPos) ?: Long.MIN_VALUE // Default is before everything
     // Must have been touching more recently than x seconds ago
     val wasRecentlyTouchingNaturalLeaves =
-        lastTouchingLeafTime >= (currentTick - 20 * 10)
+        lastTouchingLeafTime >= (currentTick - SharedConstants.TICKS_PER_SECOND * 10)
 
     val logQueue = linkedSetOf<BlockPos>()
     val foundLogs = linkedSetOf<BlockPos>()
