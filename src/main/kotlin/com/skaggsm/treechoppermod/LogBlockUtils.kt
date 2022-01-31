@@ -21,6 +21,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
+import java.time.Duration
 
 private val BlockState.isNaturalLeaf: Boolean
     get() {
@@ -71,7 +72,10 @@ private val directions = linkedSetOf(
  * Key: the [BlockPos] of the log being checked
  * Value: the tick that leaves were last checked for
  */
-private val WAS_TOUCHING_NATURAL_LEAVES = CacheBuilder.newBuilder().maximumSize(1024L * 64).build<BlockPos, Long>()
+private val WAS_TOUCHING_NATURAL_LEAVES = CacheBuilder.newBuilder()
+    .maximumSize(1024L * 64)
+    .expireAfterAccess(Duration.ofMinutes(5))
+    .build<BlockPos, Long>()
 
 /**
  * If there are other logs, finds the furthest one and swaps it into [blockPos].
