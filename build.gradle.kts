@@ -12,10 +12,10 @@ plugins {
     idea
     `maven-publish`
     id("fabric-loom") version "0.10-SNAPSHOT"
-    id("com.github.ben-manes.versions") version "0.39.0"
+    id("com.github.ben-manes.versions") version "0.41.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.diffplug.spotless") version "6.0.1"
-    kotlin("jvm") version "1.6.0"
+    id("com.diffplug.spotless") version "6.2.0"
+    kotlin("jvm") version "1.6.10"
     id("org.shipkit.shipkit-auto-version") version "1.+"
     id("org.shipkit.shipkit-changelog") version "1.+"
     id("org.shipkit.shipkit-github-release") version "1.+"
@@ -45,8 +45,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 val curseforge_id: String by project
@@ -63,7 +63,7 @@ val fiber_version: String by project
 val modmenu_version: String by project
 
 base {
-    archivesBaseName = archives_base_name
+    archivesName.set(archives_base_name)
     group = maven_group
 }
 

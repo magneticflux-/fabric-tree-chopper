@@ -21,7 +21,7 @@ public abstract class PillarBlockMixin extends Block {
     public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos) {
         float delta = super.calcBlockBreakingDelta(state, player, world, pos);
         if (FabricTreeChopper.config.variableBreakingTime && LogBlockUtilsKt.canBreakLog(player, state)) {
-            var numLogs = LogBlockUtilsKt.findAllLogsAbove(state, world, pos).size();
+            var numLogs = LogBlockUtilsKt.findAllLogsAbove(state, player.getWorld(), pos).size();
             delta /= Math.pow(numLogs + 1, 0.75);
         }
         return delta;
