@@ -19,7 +19,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.util.registry.Registry
-import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 private val BlockState.isNaturalLeaf: Boolean
@@ -65,7 +64,13 @@ private val directions = linkedSetOf(
     // Reversed so that the top gets added to the output list last and gets picked first. Makes log breaking look more "natural".
     .reversed()
 
-private val WAS_TOUCHING_NATURAL_LEAVES = CacheBuilder.newBuilder().maximumSize(1024L * 64).build<BlockPos, Unit>()
+/**
+ * A cache of leaf positions to allow blocks that were recently touching leaves to be broken.
+ *
+ * Key: the [BlockPos] of the log being checked
+ * Value: the tick that leaves were last checked for
+ */
+private val WAS_TOUCHING_NATURAL_LEAVES = CacheBuilder.newBuilder().maximumSize(1024L * 64).build<BlockPos, Long>()
 
 /**
  * If there are other logs, finds the furthest one and swaps it into [blockPos].
@@ -84,10 +89,18 @@ private fun findFurthestLog(originalBlockState: BlockState, world: World, blockP
     return logs.lastOrNull()
 }
 
-fun findAllLogsAbove(originalBlockState: BlockState, world: BlockView, originalBlockPos: BlockPos): Set<BlockPos> {
+fun findAllLogsAbove(originalBlockState: BlockState, world: World, originalBlockPos: BlockPos): Set<BlockPos> {
+    // Leaf cache check
+    val currentTick = world.time
+    val lastTouchingLeafTime =
+        WAS_TOUCHING_NATURAL_LEAVES.getIfPresent(originalBlockPos) ?: 0 // Default to before everything
+    // Must have been touching more recently than x seconds ago
+    val wasRecentlyTouchingNaturalLeaves =
+        lastTouchingLeafTime >= (currentTick - 20 * 10)
+
     val logQueue = linkedSetOf<BlockPos>()
     val foundLogs = linkedSetOf<BlockPos>()
-    var foundNaturalLeaf = false
+    var foundNaturalLeaf = wasRecentlyTouchingNaturalLeaves
 
     logQueue.push(originalBlockPos)
 
@@ -110,15 +123,13 @@ fun findAllLogsAbove(originalBlockState: BlockState, world: BlockView, originalB
     // Cache each log found to remember leaves later
     if (foundNaturalLeaf)
         for (log in foundLogs) {
-            WAS_TOUCHING_NATURAL_LEAVES.put(log.toImmutable(), Unit)
+            WAS_TOUCHING_NATURAL_LEAVES.put(log.toImmutable(), currentTick)
         }
 
     // The original block was already broken, skip returning it
     foundLogs -= originalBlockPos
 
-    val wasTouchingNaturalLeaves = WAS_TOUCHING_NATURAL_LEAVES.getIfPresent(originalBlockPos) != null
-
-    return if (config.requireLeavesToChop && !(foundNaturalLeaf || wasTouchingNaturalLeaves))
+    return if (config.requireLeavesToChop && !foundNaturalLeaf)
         emptySet()
     else
         foundLogs
