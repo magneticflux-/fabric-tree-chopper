@@ -211,10 +211,10 @@ curseforge {
 
 spotless {
     kotlin {
-        ktlint("0.43.0")
+        ktlint("0.44.0")
     }
     kotlinGradle {
-        ktlint("0.43.0")
+        ktlint("0.44.0")
     }
 }
 
