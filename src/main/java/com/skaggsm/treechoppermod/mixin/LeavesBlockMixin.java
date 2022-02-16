@@ -23,7 +23,7 @@ public abstract class LeavesBlockMixin extends Block {
         super(settings);
     }
 
-    @Inject(at = @At("TAIL"), method = "scheduledTick", locals = CAPTURE_FAILSOFT)
+    @Inject(at = @At("TAIL"), method = {"scheduledTick", "method_9588"}, locals = CAPTURE_FAILSOFT, remap = false)
     private void onScheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         var newState = world.getBlockState(pos);
 
