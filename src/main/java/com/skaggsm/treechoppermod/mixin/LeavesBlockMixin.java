@@ -27,10 +27,10 @@ public abstract class LeavesBlockMixin extends Block {
     private void onScheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         var newState = world.getBlockState(pos);
 
-        var dist = newState.get(Properties.DISTANCE_1_7);
+        var distance = newState.get(Properties.DISTANCE_1_7);
         var persistent = newState.getOrEmpty(Properties.PERSISTENT).orElse(false);
 
-        if (dist == 7 && !persistent && FabricTreeChopper.INSTANCE.getConfig().fastLeafDecay)
+        if (distance == 7 && !persistent && FabricTreeChopper.INSTANCE.getConfig().fastLeafDecay)
             this.randomTick(state, world, pos, random);
     }
 }

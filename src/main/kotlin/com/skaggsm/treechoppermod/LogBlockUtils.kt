@@ -6,16 +6,14 @@ import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_AFTER_CHOP
 import com.skaggsm.treechoppermod.FullChopDurabilityMode.BREAK_MID_CHOP
 import net.minecraft.SharedConstants
 import net.minecraft.block.BlockState
-import net.minecraft.block.FungusBlock
 import net.minecraft.block.LeavesBlock
-import net.minecraft.block.Material
-import net.minecraft.block.PillarBlock
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.stat.Stats
+import net.minecraft.tag.BlockTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
@@ -24,13 +22,10 @@ import net.minecraft.world.World
 import java.time.Duration
 
 private val BlockState.isNaturalLeaf: Boolean
-    get() {
-        return (this.contains(LeavesBlock.PERSISTENT) && !this.get(LeavesBlock.PERSISTENT)) || this.block is FungusBlock
-    }
+    get() = (BlockTags.LEAVES.contains(this.block) || BlockTags.WART_BLOCKS.contains(this.block)) &&
+        !this.getOrEmpty(LeavesBlock.PERSISTENT).orElse(false)
 private val BlockState.isChoppable: Boolean
-    get() {
-        return this.block is PillarBlock && (this.material == Material.WOOD || this.material == Material.NETHER_WOOD)
-    }
+    get() = BlockTags.LOGS.contains(this.block)
 
 private val Item.id: Identifier
     get() = Registry.ITEM.getId(this)
