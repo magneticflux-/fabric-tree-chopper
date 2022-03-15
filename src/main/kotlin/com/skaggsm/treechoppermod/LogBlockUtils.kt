@@ -22,10 +22,10 @@ import net.minecraft.world.World
 import java.time.Duration
 
 private val BlockState.isNaturalLeaf: Boolean
-    get() = (BlockTags.LEAVES.contains(this.block) || BlockTags.WART_BLOCKS.contains(this.block)) &&
+    get() = (this.block.registryEntry.isIn(BlockTags.LEAVES) || this.block.registryEntry.isIn(BlockTags.WART_BLOCKS)) &&
         !this.getOrEmpty(LeavesBlock.PERSISTENT).orElse(false)
 private val BlockState.isChoppable: Boolean
-    get() = BlockTags.LOGS.contains(this.block)
+    get() = this.block.registryEntry.isIn(BlockTags.LOGS)
 
 private val Item.id: Identifier
     get() = Registry.ITEM.getId(this)

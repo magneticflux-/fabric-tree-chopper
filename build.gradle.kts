@@ -11,10 +11,10 @@ plugins {
     java
     idea
     `maven-publish`
-    id("fabric-loom") version "0.10-SNAPSHOT"
-    id("com.github.ben-manes.versions") version "0.41.0"
+    id("fabric-loom") version "0.11-SNAPSHOT"
+    id("com.github.ben-manes.versions") version "0.42.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.diffplug.spotless") version "6.2.0"
+    id("com.diffplug.spotless") version "6.3.0"
     kotlin("jvm") version "1.6.10"
     id("org.shipkit.shipkit-auto-version") version "1.+"
     id("org.shipkit.shipkit-changelog") version "1.+"
@@ -67,7 +67,8 @@ base {
     group = maven_group
 }
 
-minecraft {}
+loom {
+}
 
 dependencies {
     // to change the versions see the gradle.properties file
