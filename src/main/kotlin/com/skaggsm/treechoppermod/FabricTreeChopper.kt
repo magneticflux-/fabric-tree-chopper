@@ -16,8 +16,8 @@ import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.util.Identifier
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
+import kotlin.io.path.div
 
 /**
  * Created by Mitchell Skaggs on 7/30/2019.
@@ -29,7 +29,7 @@ object FabricTreeChopper : ModInitializer {
         .derive(Identifier::class.java, ::Identifier, Identifier::toString)
 
     private val serializer = JanksonValueSerializer(false)
-    private val configFile: Path = Paths.get("config", "fabric-tree-chopper.json")
+    private val configFile: Path = FabricLoader.getInstance().configDir / "fabric-tree-chopper.json"
 
     lateinit var config: FabricTreeChopperFiberConfig
     lateinit var configTree: ConfigBranch
