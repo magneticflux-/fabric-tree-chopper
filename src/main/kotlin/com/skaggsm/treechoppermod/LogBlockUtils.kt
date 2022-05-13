@@ -8,13 +8,13 @@ import net.minecraft.SharedConstants
 import net.minecraft.block.BlockState
 import net.minecraft.block.LeavesBlock
 import net.minecraft.entity.EquipmentSlot
-import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.stat.Stats
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.Identifier
+import net.minecraft.util.ItemScatterer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
 import net.minecraft.util.registry.Registry
@@ -196,11 +196,12 @@ fun maybeBreakAllLogs(
         }
     }
 
-    world.spawnEntity(
-        ItemEntity(
-            world, pos.x + .5, pos.y + .5, pos.z + .5,
-            ItemStack(originalBlockState.block.asItem(), logsBroken)
-        )
+    ItemScatterer.spawn(
+        world,
+        pos.x + .5,
+        pos.y + .5,
+        pos.z + .5,
+        ItemStack(originalBlockState.block.asItem(), logsBroken)
     )
 }
 
