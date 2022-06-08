@@ -11,10 +11,10 @@ plugins {
     java
     idea
     `maven-publish`
-    id("fabric-loom") version "0.11-SNAPSHOT"
+    id("fabric-loom") version "0.12-SNAPSHOT"
     id("com.github.ben-manes.versions") version "0.42.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.diffplug.spotless") version "6.6.1"
+    id("com.diffplug.spotless") version "6.7.0"
     kotlin("jvm") version "1.6.21"
     id("org.shipkit.shipkit-auto-version") version "1.+"
     id("org.shipkit.shipkit-changelog") version "1.+"
@@ -29,6 +29,7 @@ tasks.withType<DependencyUpdatesTask> {
 }
 
 repositories {
+    mavenCentral()
     maven {
         url = uri("https://maven.fabricmc.net/")
         name = "Fabric"
@@ -41,7 +42,10 @@ repositories {
         url = uri("https://maven.terraformersmc.com/releases/")
         name = "TerraformersMC"
     }
-    mavenCentral()
+    maven {
+        url = uri("https://maven.skaggsm.com/releases")
+        name = "Personal"
+    }
 }
 
 java {
@@ -87,12 +91,8 @@ dependencies {
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:$cloth_config_version")
     include("me.shedaniel.cloth:cloth-config-fabric:$cloth_config_version")
 
-    modImplementation("me.shedaniel.cloth:fiber2cloth:$fiber_2_cloth_version") {
-        isTransitive = false
-    }
-    include("me.shedaniel.cloth:fiber2cloth:$fiber_2_cloth_version") {
-        isTransitive = false
-    }
+    modImplementation("me.shedaniel.cloth:fiber2cloth:$fiber_2_cloth_version")
+    include("me.shedaniel.cloth:fiber2cloth:$fiber_2_cloth_version")
 
     modImplementation("me.zeroeightsix:fiber:$fiber_version")
     include("me.zeroeightsix:fiber:$fiber_version")
@@ -136,10 +136,7 @@ java {
 publishing {
     publications {
         create<MavenPublication>("mod") {
-            artifact(tasks.remapJar)
-            artifact(tasks["sourcesJar"]) {
-                builtBy(tasks.remapSourcesJar)
-            }
+            from(components["java"])
         }
     }
 
@@ -212,10 +209,10 @@ curseforge {
 
 spotless {
     kotlin {
-        ktlint("0.44.0")
+        ktlint("0.45.2")
     }
     kotlinGradle {
-        ktlint("0.44.0")
+        ktlint("0.45.2")
     }
 }
 

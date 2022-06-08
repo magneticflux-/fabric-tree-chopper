@@ -6,18 +6,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Random;
-
 import static org.spongepowered.asm.mixin.injection.callback.LocalCapture.CAPTURE_FAILSOFT;
 
 @Pseudo
-@Mixin(targets = {"net.minecraft.block.LeavesBlock", "me.thonk.croptopia.blocks.LeafCropBlock"})
+@Mixin(targets = {"net.minecraft.block.LeavesBlock", "com.epherical.croptopia.blocks.LeafCropBlock"})
 public abstract class LeavesBlockMixin extends Block {
     public LeavesBlockMixin(Settings settings) {
         super(settings);

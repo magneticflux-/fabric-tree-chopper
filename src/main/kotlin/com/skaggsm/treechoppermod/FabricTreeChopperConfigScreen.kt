@@ -17,7 +17,6 @@ import me.shedaniel.fiber2cloth.api.DefaultTypes.IDENTIFIER_TYPE
 import me.shedaniel.fiber2cloth.api.Fiber2Cloth
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import java.util.Optional
@@ -26,7 +25,7 @@ import java.util.function.Function
 class FabricTreeChopperConfigScreen : ModMenuApi {
     override fun getModConfigScreenFactory(): ConfigScreenFactory<Screen> {
         return ConfigScreenFactory { screen ->
-            Fiber2Cloth.create(screen, MODID, configTree, "config.fabric-tree-chopper.title")
+            Fiber2Cloth.create(screen, MODID, configTree, Text.translatable("config.fabric-tree-chopper.title"))
                 .setSaveRunnable {
                     serialize()
                 }
@@ -36,7 +35,7 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
                     listOf(
                         configEntryBuilder
                             .startStrList(
-                                TranslatableText("config.$MODID.${leaf.name}"),
+                                Text.translatable("config.$MODID.${leaf.name}"),
                                 IDENTIFIER_LIST.toPlatformType(mirror.value)
                             )
                             .setDefaultValue { IDENTIFIER_LIST.toPlatformType(defaultValue) }
@@ -49,7 +48,7 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
                                     val id = IDENTIFIER_TYPE.toRuntimeType(it)
                                     if (registry != null && !registry.containsId(id))
                                         return@setCellErrorSupplier Optional.of(
-                                            TranslatableText(
+                                            Text.translatable(
                                                 "config.error.fabric-tree-chopper.identifierNotInRegistry",
                                                 id,
                                                 registry.key.value
@@ -58,7 +57,7 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
                                     Optional.empty()
                                 } catch (e: FiberConversionException) {
                                     Optional.of(
-                                        TranslatableText(
+                                        Text.translatable(
                                             "config.error.fabric-tree-chopper.identifierInvalid",
                                             it
                                         )
