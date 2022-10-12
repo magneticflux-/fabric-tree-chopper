@@ -109,30 +109,33 @@ fun findAllLogsAbove(originalBlockState: BlockState, world: World, originalBlock
         directions.map(log::plus)
             .forEach {
                 val state = world.getBlockState(it)
-                if (originalBlockState.block == state.block && it !in foundLogs)
+                if (originalBlockState.block == state.block && it !in foundLogs) {
                     logQueue.push(it)
-                else if (state.isNaturalLeaf) {
+                } else if (state.isNaturalLeaf) {
                     foundNaturalLeaf = true
                 }
             }
         foundLogs += log
-        if (config.logSearchLimit >= 0 && foundLogs.size > config.logSearchLimit)
-        // We've found enough logs, stop now to prevent lag when breaking huge modded trees
+        if (config.logSearchLimit >= 0 && foundLogs.size > config.logSearchLimit) {
+            // We've found enough logs, stop now to prevent lag when breaking huge modded trees
             break
+        }
     }
     // Cache each log found to remember leaves later
-    if (foundNaturalLeaf)
+    if (foundNaturalLeaf) {
         for (log in foundLogs) {
             WAS_TOUCHING_NATURAL_LEAVES.put(log.toImmutable(), currentTick)
         }
+    }
 
     // The original block was already broken, skip returning it
     foundLogs -= originalBlockPos
 
-    return if (config.requireLeavesToChop && !foundNaturalLeaf)
+    return if (config.requireLeavesToChop && !foundNaturalLeaf) {
         emptySet()
-    else
+    } else {
         foundLogs
+    }
 }
 
 private fun <E> LinkedHashSet<E>.pop(): E {
@@ -171,8 +174,9 @@ fun maybeBreakAllLogs(
 
     for (log in logs) {
         // Check if the axe has broken and abort if so
-        if (stack.count == 0)
+        if (stack.count == 0) {
             break
+        }
         world.breakBlock(log, false, miner)
         logsBroken++
 
@@ -182,8 +186,9 @@ fun maybeBreakAllLogs(
         // Do the damage incrementally
         if (config.fullChopDurabilityUsage == BREAK_MID_CHOP) {
             stack.damage(1, miner) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
-            if (shouldStop(stack))
+            if (shouldStop(stack)) {
                 break
+            }
         }
     }
 
@@ -191,8 +196,9 @@ fun maybeBreakAllLogs(
     if (config.fullChopDurabilityUsage == BREAK_AFTER_CHOP) {
         for (i in 0 until logsBroken) {
             stack.damage(1, miner) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
-            if (shouldStop(stack))
+            if (shouldStop(stack)) {
                 break
+            }
         }
     }
 
