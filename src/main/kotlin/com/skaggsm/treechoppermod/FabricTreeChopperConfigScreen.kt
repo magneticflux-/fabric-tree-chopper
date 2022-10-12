@@ -46,7 +46,7 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
                             .setCellErrorSupplier {
                                 try {
                                     val id = IDENTIFIER_TYPE.toRuntimeType(it)
-                                    if (registry != null && !registry.containsId(id))
+                                    if (registry != null && !registry.containsId(id)) {
                                         return@setCellErrorSupplier Optional.of(
                                             Text.translatable(
                                                 "config.error.fabric-tree-chopper.identifierNotInRegistry",
@@ -54,6 +54,7 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
                                                 registry.key.value
                                             )
                                         )
+                                    }
                                     Optional.empty()
                                 } catch (e: FiberConversionException) {
                                     Optional.of(
