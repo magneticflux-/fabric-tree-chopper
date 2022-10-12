@@ -11,12 +11,12 @@ plugins {
     java
     idea
     `maven-publish`
-    id("fabric-loom") version "0.12-SNAPSHOT"
+    id("fabric-loom") version "1.0-SNAPSHOT"
     id("com.github.ben-manes.versions") version "0.42.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id("com.modrinth.minotaur") version "2.+"
-    id("com.diffplug.spotless") version "6.7.0"
-    kotlin("jvm") version "1.6.21"
+    id("com.diffplug.spotless") version "6.11.0"
+    kotlin("jvm") version "1.7.20"
     id("org.shipkit.shipkit-auto-version") version "1.+"
     id("org.shipkit.shipkit-changelog") version "1.+"
     id("org.shipkit.shipkit-github-release") version "1.+"
@@ -227,10 +227,10 @@ modrinth {
 
 spotless {
     kotlin {
-        ktlint("0.45.2")
+        ktlint("0.47.1")
     }
     kotlinGradle {
-        ktlint("0.45.2")
+        ktlint("0.47.1")
     }
 }
 
