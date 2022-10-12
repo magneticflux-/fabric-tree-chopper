@@ -14,6 +14,7 @@ plugins {
     id("fabric-loom") version "0.12-SNAPSHOT"
     id("com.github.ben-manes.versions") version "0.42.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
+    id("com.modrinth.minotaur") version "2.+"
     id("com.diffplug.spotless") version "6.7.0"
     kotlin("jvm") version "1.6.21"
     id("org.shipkit.shipkit-auto-version") version "1.+"
@@ -54,6 +55,7 @@ java {
 }
 
 val curseforge_id: String by project
+val modrinth_id: String by project
 val archives_base_name: String by project
 val maven_group: String by project
 val minecraft_version: String by project
@@ -171,7 +173,7 @@ tasks.githubRelease {
 curseforge {
     // Stored in ~/.gradle/gradle.properties
     when {
-        project.hasProperty("curseApiKey") -> apiKey = project.ext["curseApiKey"]
+        project.hasProperty("curseApiKey") -> apiKey = project.property("curseApiKey")
         System.getenv("CURSE_API_KEY") != null -> apiKey = System.getenv("CURSE_API_KEY")
         else -> println("No CurseForge API key found, \'curseforge\' tasks will not work")
     }
@@ -182,6 +184,7 @@ curseforge {
             releaseType = "release"
             addGameVersion(minecraft_version)
             addGameVersion("Fabric")
+            addGameVersion("Quilt")
             changelog = "View the latest changelog here: https://github.com/magneticflux-/fabric-tree-chopper/releases"
             mainArtifact(
                 tasks.remapJar.get(),
@@ -207,6 +210,21 @@ curseforge {
     )
 }
 
+modrinth {
+    // Stored in ~/.gradle/gradle.properties
+    when {
+        project.hasProperty("modrinthApiKey") -> token.set(project.property("modrinthApiKey").toString())
+        System.getenv("MODRINTH_API_KEY") != null -> token.set(System.getenv("MODRINTH_API_KEY"))
+        else -> println("No Modrinth API key found, \'modrinth\' tasks will not work")
+    }
+    projectId.set(modrinth_id)
+    versionNumber.set(version.toString())
+    gameVersions.add(minecraft_version)
+    uploadFile.set(tasks.remapJar as Any)
+    additionalFiles.add(tasks.remapSourcesJar as Any)
+    loaders.addAll("fabric", "quilt")
+}
+
 spotless {
     kotlin {
         ktlint("0.45.2")
@@ -220,7 +238,8 @@ afterEvaluate {
     // CurseGradle generates tasks in afterEvaluate for each project
     // There isn't really any other way to make it depend on a task unless it is an AbstractArchiveTask
     val curseforgeTask = tasks.getByName("curseforge$curseforge_id")
+    val modrinthTask = tasks.modrinth
     tasks.publish {
-        dependsOn(curseforgeTask)
+        dependsOn(curseforgeTask, modrinthTask)
     }
 }
