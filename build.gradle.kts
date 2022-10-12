@@ -223,6 +223,12 @@ modrinth {
     uploadFile.set(tasks.remapJar as Any)
     additionalFiles.add(tasks.remapSourcesJar as Any)
     loaders.addAll("fabric", "quilt")
+    dependencies {
+        required.project("fabric-api")
+        optional.project("modmenu")
+        embedded.project("cloth-config")
+        embedded.project("fabric-language-kotlin")
+    }
 }
 
 spotless {
