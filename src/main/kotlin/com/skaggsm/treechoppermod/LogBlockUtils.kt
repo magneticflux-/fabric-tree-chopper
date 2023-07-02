@@ -11,13 +11,14 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
+import net.minecraft.registry.tag.BlockTags
 import net.minecraft.stat.Stats
-import net.minecraft.tag.BlockTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.ItemScatterer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3i
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
 import net.minecraft.world.World
 import java.time.Duration
 
@@ -28,7 +29,7 @@ private val BlockState.isChoppable: Boolean
     get() = this.isIn(BlockTags.LOGS)
 
 private val Item.id: Identifier
-    get() = Registry.ITEM.getId(this)
+    get() = Registries.ITEM.getId(this)
 
 private val directions = linkedSetOf(
     // Above touching face

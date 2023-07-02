@@ -2,8 +2,8 @@ package com.skaggsm.treechoppermod;
 
 import me.shedaniel.fiber2cloth.api.ClothSetting;
 import net.minecraft.item.AxeItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class FabricTreeChopperFiberConfig {
     public boolean stopBeforeAxeBreak = true;
     public boolean chopInCreativeMode = false;
     @ClothSetting.RegistryInput("minecraft:item")
-    public List<Identifier> axes = Registry.ITEM.stream().filter(AxeItem.class::isInstance).map(Registry.ITEM::getId).toList();
+    public List<Identifier> axes = Registries.ITEM.stream().filter(AxeItem.class::isInstance).map(Registries.ITEM::getId).toList();
     public boolean variableBreakingTime = false;
 }
 

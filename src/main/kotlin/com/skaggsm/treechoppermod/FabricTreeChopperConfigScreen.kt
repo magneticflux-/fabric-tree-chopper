@@ -16,9 +16,9 @@ import me.shedaniel.fiber2cloth.api.ClothAttributes
 import me.shedaniel.fiber2cloth.api.DefaultTypes.IDENTIFIER_TYPE
 import me.shedaniel.fiber2cloth.api.Fiber2Cloth
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.registry.Registries
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import java.util.Optional
 import java.util.function.Function
 
@@ -31,7 +31,7 @@ class FabricTreeChopperConfigScreen : ModMenuApi {
                 }
                 .registerLeafEntryFunction(IDENTIFIER_LIST) { leaf: ConfigLeaf<List<String>>, _: ListSerializableType<String>, mirror: PropertyMirror<List<Identifier>>, defaultValue: List<Identifier>, _: Function<List<Identifier>, Optional<Text>> ->
                     val registry = leaf.getAttributeValue(ClothAttributes.REGISTRY_INPUT, IDENTIFIER_TYPE)
-                        .flatMap(Registry.REGISTRIES::getOrEmpty).orElse(null)
+                        .flatMap(Registries.REGISTRIES::getOrEmpty).orElse(null)
                     listOf(
                         configEntryBuilder
                             .startStrList(
