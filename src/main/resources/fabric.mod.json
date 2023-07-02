@@ -3,7 +3,7 @@
   "id": "fabric-tree-chopper",
   "version": "${version}",
   "name": "Fabric Tree Chopper",
-  "description": "A Fabric mod to make cutting down trees easier and more realistic.",
+  "description": "A Fabric mod to make cutting down trees easier and more realistic. | Ported to 1.20.x by Duzo",
   "authors": [
     "magneticflux-",
     "ft-l"
